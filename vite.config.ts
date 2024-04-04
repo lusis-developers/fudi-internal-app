@@ -10,6 +10,23 @@ export default defineConfig({
     vue(),
     VueDevTools(),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @import '@fortawesome/fontawesome-free/scss/fontawesome.scss';
+          @import '@fortawesome/fontawesome-free/scss/solid.scss';
+          @import '@fortawesome/fontawesome-free/scss/regular.scss';
+          @import '@fortawesome/fontawesome-free/scss/brands.scss';
+          @import '@nabux-crush/crush-styles/nabuxInternalVariables';
+          @import './src/styles.scss';
+        `
+      }
+    }
+  },
+  define: {
+    'process.env': process.env
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
