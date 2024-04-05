@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <main>
-    esta es la pagina de homeeeeee
-  </main>
+  <h1>
+    homeeeeeee
+  </h1>
 </template>

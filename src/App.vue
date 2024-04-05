@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { shallowRef, watchEffect } from 'vue';
 import { useRoute } from 'vue-router'
 
 const route = useRoute();
-const layout = ref(null);
+const layout = shallowRef(null);
 
-onMounted(async () => {
+watchEffect(async () => {
   const layoutName = route.meta.layout || 'default';
   layout.value = (await import(`./layouts/${layoutName}.vue`)).default;
 });

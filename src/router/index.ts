@@ -15,7 +15,7 @@ const routes = [
       path: '/admin',
       name: 'admin',
       component: AdminView,
-      meta: { layout: 'default' }
+      meta: { layout: 'admin' }
     }
   ]
 

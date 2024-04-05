@@ -1,5 +1,5 @@
 <template>
   <h1>
-    esta es la pagina de administrador
+    adminnnn
   </h1>
 </template>

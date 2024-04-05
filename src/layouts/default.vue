@@ -1,6 +1,10 @@
+<script setup lang="ts">
+  import WebHeader from '@/components/web/WebHeader.vue'
+</script>
+
 <template>
   <header class="header">
-    este es el header default
+    este el header default
   </header>
   <main>
     <slot/>

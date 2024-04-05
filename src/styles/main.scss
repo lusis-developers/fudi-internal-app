@@ -1,7 +1,7 @@
-@import './style/colorVariables';
-@import './style/fontVariables';
+@import './colorVariables';
+@import './fontVariables';
 
 h1, h2, h3, h4, h5, h6, a, p {
-  color: $white;
+  color: $black;
   font-size: $font-size-normal;
 }
