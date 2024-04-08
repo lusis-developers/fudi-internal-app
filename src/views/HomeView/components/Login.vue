@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import useUserStore from "@/store/userStore";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 const password = ref("");
-const handleSubmit = () => {
-  if (password.value === "soydenissita") {
-    console.log("¡Acceso concedido!");
-  } else {
-    console.log("Acceso denegado");
+const userStore = useUserStore();
+const router = useRouter();
+
+function  handleSubmit () {
+  userStore.login(password.value);
+  if (userStore.password === "soydenissita") {
+    router.push({ name: 'admin' });
   }
 };
 </script>
