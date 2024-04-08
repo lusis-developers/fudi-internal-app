@@ -1,22 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+//import layout components
+const WebContainer = () => import('@/components/web/layout/WebContainer.vue')
 
-import HomeView from '../views/HomeView.vue'
-import AdminView from '@/views/AdminView.vue';
+// import views 
+import HomeView from '@/views/HomeView/index.vue';
 
 const routes = [
     {
       path: '/',
       name: 'home',
-      component: HomeView,
-      meta: { layout: 'default' } 
+      component: WebContainer,
+      children: [
+        {
+          path: '',
+          hero: 'login',
+          component: HomeView
+        }
+      ]
     },
-    {
-      path: '/admin',
-      name: 'admin',
-      component: AdminView,
-      meta: { layout: 'admin' }
-    }
   ]
 
 const router = createRouter({

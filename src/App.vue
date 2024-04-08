@@ -1,20 +1,20 @@
-<script setup lang="ts">
-import { shallowRef, watchEffect } from 'vue';
-import { useRoute } from 'vue-router'
-
-const route = useRoute();
-const layout = shallowRef(null);
-
-watchEffect(async () => {
-  const layoutName = route.meta.layout || 'default';
-  layout.value = (await import(`./layouts/${layoutName}.vue`)).default;
-});
-</script>
-
 <template>
-  <component :is="layout">
-    <RouterView v-slot="{Component}">
-      <component :is="Component" />
-    </RouterView>
-  </component>
+  <div 
+    class="app-container">
+    <div class="app-container-view">
+      <RouterView />
+    </div>
+  </div>
 </template>
+
+<style lang="scss">
+.app-container {
+  background-color: $white;
+	min-height: 100vh;
+	width: 100%;
+  &-view {
+    flex: 1;
+  }
+}
+
+</style>
