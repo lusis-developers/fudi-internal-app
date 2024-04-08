@@ -8,6 +8,12 @@ dependencies:
   '@fortawesome/fontawesome-free':
     specifier: ^6.5.2
     version: 6.5.2
+  '@nabux-crush/crush-text-area':
+    specifier: ^0.1.0
+    version: 0.1.0
+  '@nabux-crush/crush-text-field':
+    specifier: ^0.5.1
+    version: 0.5.1
   dotenv:
     specifier: ^16.4.5
     version: 16.4.5
@@ -649,6 +655,22 @@ packages:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
+
+  /@nabux-crush/crush-styles@0.0.21:
+    resolution: {integrity: sha512-CpqYTLi/0a/nYkba5Prra53TnpRi46zD2iRBcW0RciYcCEb0fyp3G+kEjwrW+8rLPRsbpAyr2QBSvzU/FRGOPA==}
+    dev: false
+
+  /@nabux-crush/crush-text-area@0.1.0:
+    resolution: {integrity: sha512-FrNa01+Yr2aqR6o8l2GnK3PvhUK2RwaIXjygp0oWwmfgr/vivSgdP0IDZ2bEsZJmw9b1uwHpvPlfb6fwwQ37dA==}
+    dependencies:
+      '@nabux-crush/crush-styles': 0.0.21
+    dev: false
+
+  /@nabux-crush/crush-text-field@0.5.1:
+    resolution: {integrity: sha512-d9jMZTT3zxQieETohxmqs7vbBOtjMP+yugfO90s6RrrkNhhWY0kBKEpi4QS0+3uHLUj7gVD7uVUl2PztIf5PDw==}
+    dependencies:
+      '@nabux-crush/crush-styles': 0.0.21
+    dev: false
 
   /@polka/url@1.0.0-next.25:
     resolution: {integrity: sha512-j7P6Rgr3mmtdkeDGTe0E/aYyWEWVtc5yFXtHCRHs28/jptDEWfaVOc5T7cblqy1XKPPfCxJc/8DwQ5YgLOZOVQ==}

@@ -7,6 +7,7 @@ const AdminContainer = () => import ('@/components/admin/layout/AdminContainer.v
 // import views 
 import HomeView from '@/views/HomeView/index.vue';
 import AdminView from '@/views/AdminView/index.vue'
+import AddBusinessView from '@/views/AdminView/BusinessForm/index.vue'
 
 const routes = [
   {
@@ -29,6 +30,11 @@ const routes = [
         path: '',
         name: 'admin',
         component: AdminView
+      },
+      {
+        path: 'addBusiness',
+        name: 'addBusiness',
+        component: AddBusinessView
       }
     ]
   }
