@@ -1,15 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
-const orders = ref([
-  {
-    id: "#2632",
-    name: "Brooklyn Zoe",
-    address: "302 Snider Street, RUTLAND, VT, 05701",
-    instagram: "chopchops",
-    date: 'hoy',
-    status: "Pending",
-  },
-]);
+import useBusinessStore from '@/store/businessStore';
+
+
+const businessStore = useBusinessStore()
 </script>
 
 <template>
@@ -27,15 +20,15 @@ const orders = ref([
 			</thead>
 			<tbody class="container-table-body">
 				<tr 
-          v-for="order in orders" 
-          :key="order.id"
+          v-for="business in businessStore.businesses" 
+          :key="business.id"
           class="container-table-body-items"
           >
-					<td class="container-table-body-items-item">{{ order.id }}</td>
-					<td class="container-table-body-items-item">{{ order.name }}</td>
-					<td class="container-table-body-items-item">{{ order.instagram }}</td>
-					<td class="container-table-body-items-item">{{ order.date }}</td>
-					<td class="container-table-body-items-item">{{ order.status }}</td>
+					<td class="container-table-body-items-item">{{ business.id }}</td>
+					<td class="container-table-body-items-item">{{ business.name }}</td>
+					<td class="container-table-body-items-item">{{ business.instagram }}</td>
+					<td class="container-table-body-items-item">{{ business.startDate }}</td>
+					<td class="container-table-body-items-item">{{ business.status }}</td>
 					<td class="container-table-body-items-item">
 						<button>verr</button>
 					</td>
