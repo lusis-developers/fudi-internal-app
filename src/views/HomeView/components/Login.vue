@@ -29,6 +29,7 @@ const handleSubmit = () => {
 
 <style lang="scss" scoped>
 .container {
+  margin-top: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;

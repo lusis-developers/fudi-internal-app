@@ -11,9 +11,3 @@ import WebHeader from '@/components/web/layout/WebHeader.vue';
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.main-app-wrapper-view {
-  margin-top: 200px;
-}
-</style>
