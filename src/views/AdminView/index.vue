@@ -1,5 +1,21 @@
+<script setup lang="ts">
+import Dashboard from '@/views/AdminView/components/Dashboard.vue'
+</script>
+
 <template>
-  <h2>
-    Esta es la vista de adminsssss
-  </h2>
+  <div class="container">
+    <h2 class="container-title">
+      Negocios
+    </h2>
+    <Dashboard/>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.container {
+  padding: 1rem;
+  &-title {
+    text-align: left;
+  }
+}
+</style>

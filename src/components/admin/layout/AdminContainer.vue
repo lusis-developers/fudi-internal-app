@@ -4,7 +4,7 @@ import AdminHeader from '@/components/admin/layout/AdminHeader.vue'
 
 <template>
   <AdminHeader/>
-  <div>
-    esto es el header de admin señores
+  <div class="main-app-wrapper-view">
+    <RouterView/>
   </div>
 </template>

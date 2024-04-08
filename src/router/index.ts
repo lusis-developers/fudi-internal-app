@@ -11,11 +11,11 @@ import AdminView from '@/views/AdminView/index.vue'
 const routes = [
   {
     path: '/',
-    name: 'home',
     component: WebContainer,
     children: [
       {
         path: '',
+        name: 'home', 
         hero: 'login',
         component: HomeView
       }
@@ -23,11 +23,11 @@ const routes = [
   },
   {
     path: '/admin',
-    name: 'admin',
     component: AdminContainer,
     children: [
       {
         path: '',
+        name: 'admin',
         component: AdminView
       }
     ]
