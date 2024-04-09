@@ -1,9 +1,7 @@
 <script setup>
-import CrushHeader from "@nabux-crush/crush-header/CrushHeader.vue";
+import CrushHeader from "@nabux-crush/crush-header";
 
 import logo from '@/assets/fudi-bot-logo.png'
-
-
 
 import { webMenuItems } from "@/utils/menuItems";
 </script>

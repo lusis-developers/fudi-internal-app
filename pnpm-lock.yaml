@@ -8,6 +8,12 @@ dependencies:
   '@fortawesome/fontawesome-free':
     specifier: ^6.5.2
     version: 6.5.2
+  '@nabux-crush/crush-button':
+    specifier: ^1.0.33
+    version: 1.0.33
+  '@nabux-crush/crush-select':
+    specifier: ^0.0.2
+    version: 0.0.2
   '@nabux-crush/crush-text-area':
     specifier: ^0.1.0
     version: 0.1.0
@@ -655,6 +661,18 @@ packages:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
+
+  /@nabux-crush/crush-button@1.0.33:
+    resolution: {integrity: sha512-R4k1oi3ljocELqam60PzbmMrhErcxl60mP7t4+JFM4bWUrP48ALVTvljbdei3rOuudjZl6BUb2xrH7H57gTvGg==}
+    dependencies:
+      '@nabux-crush/crush-styles': 0.0.21
+    dev: false
+
+  /@nabux-crush/crush-select@0.0.2:
+    resolution: {integrity: sha512-TWurGlAnF6pFchTPYbcY+CfHrHITSFpwImVWgqCTA+Q6MNVEcKZk7hmPI+wOtZRQPAA3EHixfWebOPVA8nbxqQ==}
+    dependencies:
+      '@nabux-crush/crush-styles': 0.0.21
+    dev: false
 
   /@nabux-crush/crush-styles@0.0.21:
     resolution: {integrity: sha512-CpqYTLi/0a/nYkba5Prra53TnpRi46zD2iRBcW0RciYcCEb0fyp3G+kEjwrW+8rLPRsbpAyr2QBSvzU/FRGOPA==}
