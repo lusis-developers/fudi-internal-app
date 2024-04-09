@@ -19,7 +19,6 @@ const sendForm = computed(() => {
   return business.name !== '' &&
     business.instagram !== '' &&
     business.startDate !== '' &&
-    business.status !== businesStatus.INACTIVE &&
     businessRules.nameValidation.every((rule) => rule.validate(business.name)) &&
     businessRules.instagramValidation.every((rule) => rule.validate(business.instagram));
 });
@@ -88,6 +87,7 @@ function handleInput(value: string) {
 <style lang="scss" scoped>
 .form {
   width: 80%;
+  max-width: 640px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

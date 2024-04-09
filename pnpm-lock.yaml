@@ -11,6 +11,9 @@ dependencies:
   '@nabux-crush/crush-button':
     specifier: ^1.0.33
     version: 1.0.33
+  '@nabux-crush/crush-header':
+    specifier: ^0.0.3
+    version: 0.0.3
   '@nabux-crush/crush-select':
     specifier: ^0.0.2
     version: 0.0.2
@@ -664,6 +667,12 @@ packages:
 
   /@nabux-crush/crush-button@1.0.33:
     resolution: {integrity: sha512-R4k1oi3ljocELqam60PzbmMrhErcxl60mP7t4+JFM4bWUrP48ALVTvljbdei3rOuudjZl6BUb2xrH7H57gTvGg==}
+    dependencies:
+      '@nabux-crush/crush-styles': 0.0.21
+    dev: false
+
+  /@nabux-crush/crush-header@0.0.3:
+    resolution: {integrity: sha512-6PGeRTU9BYvMHhWMQ40XsHrliihl69LCKKpsjpxBAG8roF89FXLMh6z/cycGvoeLZRvCPHCXM7jEbdNNdhskLA==}
     dependencies:
       '@nabux-crush/crush-styles': 0.0.21
     dev: false
