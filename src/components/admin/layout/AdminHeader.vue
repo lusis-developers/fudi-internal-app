@@ -4,7 +4,9 @@ import logo from '@/assets/fudi-bot-logo.png'
 
 <template>
   <header class="admin-header">
-    <img :src="logo" alt="Logo" class="logo" />
+    <RouterLink to="/">
+      <img :src="logo" alt="Logo" class="logo" />
+    </RouterLink>
     <h1 class="username">denissita</h1>
   </header>
 </template>

@@ -6,7 +6,13 @@ import CrushButton from '@nabux-crush/crush-button'
 import CrushSelect from '@nabux-crush/crush-select'
 
 import CalendarInput from '@/components/Global/Calendar.vue'
+import useBusinessStore from '@/store/businessStore'
 import { businesStatus } from '@/enums';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const businessStore = useBusinessStore()
 
 const business = reactive({
   name: '',
@@ -50,6 +56,12 @@ function handleInput(value: string) {
   business.startDate = value;
   console.log('fecha de inicio: ', business.startDate)
 }
+function submitBusiness() {
+  if (sendForm.value) {
+    businessStore.saveBusiness(business);
+    router.push('/admin')
+  }
+}
 </script>
 
 <template>
@@ -79,7 +91,8 @@ function handleInput(value: string) {
       variant="'primary'"
       text="Guardar"
       class="form-button"
-      :disabled="!sendForm"/>
+      :disabled="!sendForm"
+      @click.prevent="submitBusiness"/>
    </form> 
   </div>
 </template>

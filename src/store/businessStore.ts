@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
-interface Business {
-  id: number;
+export interface Business {
+  id?: number;
   name: string;
   instagram: string;
   startDate: string;
@@ -32,6 +32,13 @@ export const useBusinessStore = defineStore('businessStore', {
     errorMessage: null,
     isLoading: false
   }),
+  actions: {
+    saveBusiness(newBusiness: Business) {
+      const randomId = Math.floor(Math.random() * 10000); 
+      newBusiness.id = randomId;
+      this.businesses?.push(newBusiness);
+    }
+  }
 });
 
 export default useBusinessStore;
