@@ -52,8 +52,13 @@ function updateStatus (value: string) {
     console.log('valor acutalizado: ', business.status)
   }
 }
-function handleInput(value: string) {
-  business.startDate = value;
+function handleDate(value: string) {
+  const date = new Date(value);
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const year = date.getUTCFullYear();
+
+  business.startDate = `${day}/${month}/${year}`;
   console.log('fecha de inicio: ', business.startDate)
 }
 function submitBusiness() {
@@ -79,7 +84,7 @@ function submitBusiness() {
       label="Fecha de inicio"
       class="calendar-input"
       :value="business.startDate"
-      @input="handleInput"
+      @input="handleDate"
     />
     <CrushSelect
       label="Status"
