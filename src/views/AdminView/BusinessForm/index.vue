@@ -10,14 +10,14 @@ import CalendarInput from '@/components/Global/Calendar.vue'
 import useBusinessStore from '@/store/businessStore'
 import BusinessData from './BusinessData.vue';
 import { businesStatus, Category } from '@/enums';
-import type { Business } from '@/typings/Business';
+import type { Bank, Business } from '@/typings/Business';
 
 const router = useRouter();
 
 const businessStore = useBusinessStore()
 
 const items = ref<Array<{ category: string; name: string; price: string; }>>([]);
-const business : Business = reactive({
+const business = reactive<Business>({
   _id: '',
   name: '',
   botName: '',
@@ -33,12 +33,28 @@ const business : Business = reactive({
   startDate: '',
   status: businesStatus.PENDING,
   drinks: [],
-  meals: []
+  meals: [],
+  bank: {
+    bankName: '',
+    accountType: '',
+    accountNumber: '',
+    accountName: '',
+    identification: '',
+    email: '',
+    phoneNumber: '',
+  } as Bank,
 });
 const sendForm = computed(() => {
   return business.name !== '' &&
     business.website !== '' &&
     business.startDate !== '' &&
+    business.bank.bankName !== '' &&
+    business.bank.accountType !== '' &&
+    business.bank.accountNumber !== '' &&
+    business.bank.accountName !== '' &&
+    business.bank.identification !== '' &&
+    business.bank.email !== '' &&
+    business.bank.phoneNumber !== '' &&
     businessRules.nameValidation.every((rule) => rule.validate(business.name)) &&
     businessRules.instagramValidation.every((rule) => rule.validate(business.website)) &&
     isFormValid.value; 
@@ -111,6 +127,10 @@ function handleItems(newItems: Array<{ category: string; name: string; price: st
   items.value = newItems;
   console.log('handle itemsss: ', newItems)
 }
+function handleBank(bankData: Bank) {
+  business.bank = bankData
+  console.log('bankData', bankData)
+}
 
 function submitBusiness() {
   if (sendForm.value) {
@@ -159,7 +179,8 @@ function submitBusiness() {
       :value="business.status"
       @update:value="updateStatus"
     />
-    <BankData/>
+    <BankData
+      @update:bank-data="handleBank" />
     <BusinessData 
       @update:is-valid="updateBusinessDataValidity"
       @update:items="handleItems"/>

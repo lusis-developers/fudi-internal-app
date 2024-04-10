@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { computed, reactive, watchEffect } from 'vue';
 import CrushTextField from '@nabux-crush/crush-text-field'
 
 import { useRouter } from 'vue-router';
+
+const emit = defineEmits(['update:bankData'])
 
 const router = useRouter();
 
@@ -15,16 +17,15 @@ const bank = reactive({
   email: '',
   phoneNumber: '',
 });
-
 const sendForm = computed(() => {
   return Object.values(bank).every(value => value !== '');
 });
 
-function submitBank() {
+watchEffect(() => {
   if (sendForm.value) {
-    router.push('/admin')
+    emit('update:bankData', bank);
   }
-}
+});
 </script>
 
 <template>

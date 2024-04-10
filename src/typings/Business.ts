@@ -9,6 +9,15 @@ export interface Item {
   price: string;
   details?: string;
 }
+export interface Bank {
+  bankName: string;
+  accountType: string;
+  accountNumber: string;
+  accountName: string;
+  identification: string;
+  email: string;
+  phoneNumber: string;
+}
 
 export interface Business {
   _id?: string;
@@ -23,6 +32,7 @@ export interface Business {
   status: string;
   drinks: Item[];
   meals: Item[];
+  bank: Bank;
 }
 
 export interface BusinessState {
