@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
 import CrushTextField from '@nabux-crush/crush-text-field'
-import CrushTextArea from '@nabux-crush/crush-text-area'
 import CrushButton from '@nabux-crush/crush-button'
 import CrushSelect from '@nabux-crush/crush-select'
+import { computed, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 
+import BankData from '@/views/AdminView/BusinessForm/BankData.vue'
 import CalendarInput from '@/components/Global/Calendar.vue'
 import useBusinessStore from '@/store/businessStore'
-import BankData from '@/views/AdminView/BusinessForm/BankData.vue'
 import BusinessData from './BusinessData.vue';
 import { businesStatus } from '@/enums';
-import { useRouter } from 'vue-router';
+import type { Business } from '@/typings/Business';
 
 const router = useRouter();
 
 const businessStore = useBusinessStore()
 
-const business = reactive({
+const business : Business = reactive({
   _id: '',
   name: '',
   botName: '',
