@@ -2,11 +2,7 @@
 import { computed, reactive, watchEffect } from 'vue';
 import CrushTextField from '@nabux-crush/crush-text-field'
 
-import { useRouter } from 'vue-router';
-
 const emit = defineEmits(['update:bankData'])
-
-const router = useRouter();
 
 const bank = reactive({
   bankName: '',
@@ -20,6 +16,33 @@ const bank = reactive({
 const sendForm = computed(() => {
   return Object.values(bank).every(value => value !== '');
 });
+
+const bankRules = {
+  bankNameValidation: [
+    {
+      validate: (value: string) => value.length >= 2,
+      message: 'El nombre del banco debe tener al menos 2 caracteres'
+    },
+  ],
+  accountTypeValidation: [
+    {
+      validate: (value: string) => value.length >= 2,
+      message: 'El tipo de cuenta debe tener al menos 2 caracteres'
+    },
+  ],
+  accountNumberValidation: [
+    {
+      validate: (value: string) => /^\d+$/.test(value),
+      message: 'El número de cuenta solo debe contener números'
+    },
+  ],
+  emailValidation: [
+    {
+      validate: (value: string) => /^\S+@\S+\.\S+$/.test(value),
+      message: 'Por favor, introduzca un correo electrónico válido'
+    },
+  ],
+};
 
 watchEffect(() => {
   if (sendForm.value) {
@@ -36,25 +59,31 @@ watchEffect(() => {
    <form class="form">
     <CrushTextField
       v-model="bank.bankName"
-      label="Nombre del banco"/>
+      label="Nombre del banco"
+      :valid-rules="bankRules.bankNameValidation"/>
     <CrushTextField
       v-model="bank.accountType"
-      label="Tipo de cuenta"/>
+      label="Tipo de cuenta"
+      :valid-rules="bankRules.accountTypeValidation"/>
     <CrushTextField
       v-model="bank.accountNumber"
-      label="Número de cuenta"/>
+      label="Número de cuenta"
+      :valid-rules="bankRules.accountNumberValidation"/>
     <CrushTextField
       v-model="bank.accountName"
       label="Nombre de la cuenta"/>
     <CrushTextField
       v-model="bank.identification"
-      label="Identificación"/>
+      label="Identificación"
+      :valid-rules="bankRules.accountNumberValidation"/>
     <CrushTextField
       v-model="bank.email"
-      label="Email"/>
+      label="Email"
+      :valid-rules="bankRules.emailValidation"/>
     <CrushTextField
       v-model="bank.phoneNumber"
-      label="Número de teléfono"/>
+      label="Número de teléfono"
+      :valid-rules="bankRules.accountNumberValidation"/>
    </form> 
   </div>
 </template>

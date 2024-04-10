@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import CrushTextField from '@nabux-crush/crush-text-field'
 import CalendarInput from '@/components/Global/Calendar.vue'
-import CrushSelect from '@nabux-crush/crush-select'
-import { businesStatus } from '@/enums';
-import type { Bank, Business } from '@/typings/Business';
+import CrushTextField from '@nabux-crush/crush-text-field'
 import { computed, reactive, watchEffect } from 'vue';
+import CrushSelect from '@nabux-crush/crush-select'
+
+import type { Bank, Business } from '@/typings/Business';
+import { businesStatus } from '@/enums';
 
 const emit = defineEmits(['update:business-data']);
 
@@ -13,10 +14,18 @@ const business = reactive<Business>({
   website: '',
   startDate: '',
   status: businesStatus.PENDING,
+  botName: '',
+  currency: '',
+  location: '',
+  schedule: '',
   coordinates: {
     lat: 0,
     lng: 0,
+    radius: 0,
   },
+  drinks: [],
+  meals: [],
+  bank: {} as Bank,
 });
 const lngString = computed({
   get: () => business.coordinates.lng.toString(),
