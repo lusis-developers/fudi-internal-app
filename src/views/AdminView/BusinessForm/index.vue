@@ -7,6 +7,8 @@ import CrushSelect from '@nabux-crush/crush-select'
 
 import CalendarInput from '@/components/Global/Calendar.vue'
 import useBusinessStore from '@/store/businessStore'
+import BankData from '@/views/AdminView/BusinessForm/BankData.vue'
+import BusinessData from './BusinessData.vue';
 import { businesStatus } from '@/enums';
 import { useRouter } from 'vue-router';
 
@@ -92,6 +94,8 @@ function submitBusiness() {
       :value="business.status"
       @update:value="updateStatus"
     />
+    <BankData/>
+    <BusinessData/>
     <CrushButton
       variant="'primary'"
       text="Guardar"
@@ -103,6 +107,9 @@ function submitBusiness() {
 </template>
 
 <style lang="scss" scoped>
+.container {
+  padding-bottom: 24px;
+}
 .form {
   width: 80%;
   max-width: 640px;
