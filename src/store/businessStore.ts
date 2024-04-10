@@ -1,12 +1,30 @@
 import { defineStore } from 'pinia';
 
-export interface Business {
-  id?: number;
+interface Coordinates {
+  lat: number;
+  lng: number;
+  radius: number;
+}
+
+interface Item {
   name: string;
-  instagram: string;
+  price: string;
+  details: string;
+}
+
+export interface Business {
+  _id?: string;
+  name: string;
+  botName: string;
+  coordinates: Coordinates;
+  currency: string;
+  location: string;
+  schedule: string;
+  website: string;
   startDate: string;
   status: string;
-  details: string;
+  drinks: Item[];
+  meals: Item[];
 }
 
 interface BusinessState {
@@ -18,25 +36,20 @@ interface BusinessState {
 
 export const useBusinessStore = defineStore('businessStore', {
   state: (): BusinessState => ({
-    businesses: [
-      {
-        id: 2632,
-        name: 'Brooklyn Zoe',
-        instagram: 'chopchops',
-        startDate: 'hoy',
-        status: 'Pending',
-        details: 'ver'
-      },
-    ],
+    businesses: null,
     selectedBusiness: null,
     errorMessage: null,
     isLoading: false
   }),
   actions: {
     saveBusiness(newBusiness: Business) {
-      const randomId = Math.floor(Math.random() * 10000); 
-      newBusiness.id = randomId;
-      this.businesses?.push(newBusiness);
+      const randomId = Math.floor(Math.random() * 10000).toString(); 
+      newBusiness._id = randomId;
+      if (this.businesses) {
+        this.businesses.push(newBusiness);
+      } else {
+        this.businesses = [newBusiness];
+      }
     }
   }
 });

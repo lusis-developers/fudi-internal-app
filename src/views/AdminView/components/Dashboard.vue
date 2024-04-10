@@ -12,7 +12,7 @@ const businessStore = useBusinessStore()
 				<tr class="container-table-sections-section">
 					<th class="container-table-sections-section-name">Id</th>
 					<th class="container-table-sections-section-name">Nombre</th>
-					<th class="container-table-sections-section-name">Instagram</th>
+					<th class="container-table-sections-section-name">Sitio web</th>
 					<th class="container-table-sections-section-name">fecha de inicio </th>
 					<th class="container-table-sections-section-name">Status</th>
 					<th class="container-table-sections-section-name">Detalles</th>
@@ -21,12 +21,12 @@ const businessStore = useBusinessStore()
 			<tbody class="container-table-body">
 				<tr 
           v-for="business in businessStore.businesses" 
-          :key="business.id"
+          :key="business._id"
           class="container-table-body-items"
           >
-					<td class="container-table-body-items-item">{{ business.id }}</td>
+					<td class="container-table-body-items-item">{{ business._id }}</td>
 					<td class="container-table-body-items-item">{{ business.name }}</td>
-					<td class="container-table-body-items-item">{{ business.instagram }}</td>
+					<td class="container-table-body-items-item">{{ business.website }}</td>
 					<td class="container-table-body-items-item">{{ business.startDate }}</td>
 					<td class="container-table-body-items-item">{{ business.status }}</td>
 					<td class="container-table-body-items-item">

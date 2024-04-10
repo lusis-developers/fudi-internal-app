@@ -17,18 +17,30 @@ const router = useRouter();
 const businessStore = useBusinessStore()
 
 const business = reactive({
+  _id: '',
   name: '',
-  instagram: '',
+  botName: '',
+  coordinates: {
+    lat: 0,
+    lng: 0,
+    radius: 0
+  },
+  currency: '',
+  location: '',
+  schedule: '',
+  website: '',
   startDate: '',
   status: businesStatus.PENDING,
-  details: '',
+  drinks: [],
+  meals: []
 });
+
 const sendForm = computed(() => {
   return business.name !== '' &&
-    business.instagram !== '' &&
+    business.website !== '' &&
     business.startDate !== '' &&
     businessRules.nameValidation.every((rule) => rule.validate(business.name)) &&
-    businessRules.instagramValidation.every((rule) => rule.validate(business.instagram));
+    businessRules.instagramValidation.every((rule) => rule.validate(business.website));
 });
 
 const businessRules = {
@@ -79,7 +91,7 @@ function submitBusiness() {
       :label="'Nombre'"
       :valid-rules="businessRules.nameValidation"/>
     <CrushTextField
-      v-model="business.instagram"
+      v-model="business.website"
       :label="'Instagram'"
       :valid-rules="businessRules.instagramValidation"/>
     <CalendarInput
