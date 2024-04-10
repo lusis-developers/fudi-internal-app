@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import CrushTextField from '@nabux-crush/crush-text-field'
 import CrushButton from '@nabux-crush/crush-button'
-import CrushSelect from '@nabux-crush/crush-select'
 import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import BankData from '@/views/AdminView/BusinessForm/BankData.vue'
-import CalendarInput from '@/components/Global/Calendar.vue'
 import useBusinessStore from '@/store/businessStore'
-import BusinessData from './BusinessData.vue';
+import BusinessDishes from './BusinessDishes.vue';
 import { businesStatus, Category } from '@/enums';
 import type { Bank, Business } from '@/typings/Business';
+import BusinessInfo from './BusinessInfo.vue';
 
 const router = useRouter();
 
@@ -55,72 +53,12 @@ const sendForm = computed(() => {
     business.bank.identification !== '' &&
     business.bank.email !== '' &&
     business.bank.phoneNumber !== '' &&
-    businessRules.nameValidation.every((rule) => rule.validate(business.name)) &&
-    businessRules.instagramValidation.every((rule) => rule.validate(business.website)) &&
     isFormValid.value; 
 });
 const isFormValid = ref(false);
-const latString = computed({
-  get: () => business.coordinates.lat.toString(),
-  set: (val) => { business.coordinates.lat = parseFloat(val); }
-});
 
-const lngString = computed({
-  get: () => business.coordinates.lng.toString(),
-  set: (val) => { business.coordinates.lng = parseFloat(val); }
-});
 
-const businessRules = {
-  nameValidation: [
-    {
-      validate: (value: string) => value.length >= 2,
-      message: 'El nombre debe tener al menos 2 caracteres'
-    },
-  ],
-  instagramValidation: [
-    {
-      validate: (value: string) => value.length >= 2,
-      message: 'Instagram debe tener al menos 2 caracteres'
-    },
-  ],
-  latValidation: [
-    {
-      validate: (value: string) => {
-        const num = parseFloat(value);
-        return !isNaN(num) && num >= -90 && num <= 90;
-      },
-      message: 'La latitud debe estar entre -90 y 90'
-    },
-  ],
-  lngValidation: [
-    {
-      validate: (value: string) => {
-        const num = parseFloat(value);
-        return !isNaN(num) && num >= -180 && num <= 180;
-      },
-      message: 'La longitud debe estar entre -180 y 180'
-    },
-  ],
-};
-
-const selectOptions = Object.values(businesStatus)
-
-function updateStatus (value: string) {
-  if (Object.values(businesStatus).includes(value as any)) {
-    business.status = value as any
-    console.log('valor acutalizado: ', business.status)
-  }
-}
-function handleDate(value: string) {
-  const date = new Date(value);
-  const day = String(date.getUTCDate()).padStart(2, '0');
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const year = date.getUTCFullYear();
-
-  business.startDate = `${day}/${month}/${year}`;
-  console.log('fecha de inicio: ', business.startDate)
-}
-function updateBusinessDataValidity(isValid: boolean) {
+function updateBusinessDishesValidity(isValid: boolean) {
   isFormValid.value = isValid;
 }
 function handleItems(newItems: Array<{ category: string; name: string; price: string; }>) {
@@ -131,7 +69,14 @@ function handleBank(bankData: Bank) {
   business.bank = bankData
   console.log('bankData', bankData)
 }
-
+function handleInfo (info: Business) {
+  business.name = info.name;
+  business.website = info.website;
+  business.startDate = info.startDate;
+  business.status = info.status;
+  business.coordinates.lat = info.coordinates.lat;
+  business.coordinates.lng = info.coordinates.lng;
+}
 function submitBusiness() {
   if (sendForm.value) {
     business.drinks = items.value
@@ -151,38 +96,12 @@ function submitBusiness() {
 <template>
   <div class="container">
    <form class="form">
-    <CrushTextField
-      v-model="business.name"
-      :label="'Nombre'"
-      :valid-rules="businessRules.nameValidation"/>
-    <CrushTextField
-      v-model="business.website"
-      :label="'Instagram'"
-      :valid-rules="businessRules.instagramValidation"/>
-    <CrushTextField
-      v-model="latString"
-      label="Latitud del negocio"
-      :valid-rules="businessRules.latValidation"/>
-    <CrushTextField
-      v-model="lngString"
-      label="Longitud del negocio"
-      :valid-rules="businessRules.lngValidation"/>
-    <CalendarInput
-      label="Fecha de inicio"
-      class="calendar-input"
-      :value="business.startDate"
-      @input="handleDate"
-    />
-    <CrushSelect
-      label="Status"
-      :options="selectOptions"
-      :value="business.status"
-      @update:value="updateStatus"
-    />
+    <BusinessInfo
+      @update:business-data="handleInfo"/>
     <BankData
       @update:bank-data="handleBank" />
-    <BusinessData 
-      @update:is-valid="updateBusinessDataValidity"
+    <BusinessDishes 
+      @update:is-valid="updateBusinessDishesValidity"
       @update:items="handleItems"/>
     <CrushButton
       variant="'primary'"
