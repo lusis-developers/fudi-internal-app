@@ -4,7 +4,7 @@ import CrushTextField from '@nabux-crush/crush-text-field'
 import CrushSelect from '@nabux-crush/crush-select'
 import { Category, ItemLabels } from '@/enums';
 
-const emit = defineEmits(['update:isValid'])
+const emit = defineEmits(['update:isValid', 'update:items'])
 
 const items = reactive<{ category: string; name: string; price: string; }[]>([
   { 
@@ -44,6 +44,9 @@ function removeItem (index: number) {
 watchEffect(() => {
   if (items.length > 1) {
     emit('update:isValid', true);
+    watchEffect(() => {
+    emit('update:items', items);
+  });
   } else {
     emit('update:isValid', false);
   }
@@ -72,9 +75,17 @@ watchEffect(() => {
         :prependContent="'$'" 
         label="Precio"
         />
-      <button @click="removeItem(index)">Eliminar</button>
+      <button 
+        @click="removeItem(index)"
+        class="container-form-remove">
+        Eliminar
+      </button>
     </div>
-    <button @click.prevent="addItem">Agregar</button>
+    <button
+      @click.prevent="addItem"
+      class="container-button">
+      Agregar
+    </button>
   </div>
 </template>
 

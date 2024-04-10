@@ -9,13 +9,14 @@ import BankData from '@/views/AdminView/BusinessForm/BankData.vue'
 import CalendarInput from '@/components/Global/Calendar.vue'
 import useBusinessStore from '@/store/businessStore'
 import BusinessData from './BusinessData.vue';
-import { businesStatus } from '@/enums';
+import { businesStatus, Category } from '@/enums';
 import type { Business } from '@/typings/Business';
 
 const router = useRouter();
 
 const businessStore = useBusinessStore()
 
+const items = ref<Array<{ category: string; name: string; price: string; }>>([]);
 const business : Business = reactive({
   _id: '',
   name: '',
@@ -34,7 +35,6 @@ const business : Business = reactive({
   drinks: [],
   meals: []
 });
-
 const sendForm = computed(() => {
   return business.name !== '' &&
     business.website !== '' &&
@@ -107,10 +107,22 @@ function handleDate(value: string) {
 function updateBusinessDataValidity(isValid: boolean) {
   isFormValid.value = isValid;
 }
+function handleItems(newItems: Array<{ category: string; name: string; price: string; }>) {
+  items.value = newItems;
+  console.log('handle itemsss: ', newItems)
+}
 
 function submitBusiness() {
   if (sendForm.value) {
+    business.drinks = items.value
+      .filter(item => item.category === Category.DRINKS)
+      .map(item => ({ name: item.name, price: item.price }));
+    business.meals = items.value
+      .filter(item => item.category === Category.MEALS)
+      .map(item => ({ name: item.name, price: item.price }));
+    
     businessStore.saveBusiness(business);
+    console.log('business: ', business)
     router.push('/admin')
   }
 }
@@ -148,7 +160,9 @@ function submitBusiness() {
       @update:value="updateStatus"
     />
     <BankData/>
-    <BusinessData @update:is-valid="updateBusinessDataValidity"/>
+    <BusinessData 
+      @update:is-valid="updateBusinessDataValidity"
+      @update:items="handleItems"/>
     <CrushButton
       variant="'primary'"
       text="Guardar"

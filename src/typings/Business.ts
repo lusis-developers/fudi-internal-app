@@ -7,7 +7,7 @@ export interface Coordinates {
 export interface Item {
   name: string;
   price: string;
-  details: string;
+  details?: string;
 }
 
 export interface Business {
