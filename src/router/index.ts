@@ -8,6 +8,7 @@ const AdminContainer = () => import ('@/components/admin/layout/AdminContainer.v
 import HomeView from '@/views/HomeView/index.vue';
 import AdminView from '@/views/AdminView/index.vue'
 import AddBusinessView from '@/views/AdminView/BusinessForm/index.vue'
+import { checkAccess } from './routerAccess';
 
 const routes = [
   {
@@ -25,16 +26,19 @@ const routes = [
   {
     path: '/admin',
     component: AdminContainer,
+    beforeEnter: checkAccess,
     children: [
       {
         path: '',
         name: 'admin',
-        component: AdminView
+        component: AdminView,
+        meta: { requiresAdmin: true}
       },
       {
         path: 'addBusiness',
         name: 'addBusiness',
-        component: AddBusinessView
+        component: AddBusinessView,
+        meta: { requiresAdmin: true}
       }
     ]
   }
