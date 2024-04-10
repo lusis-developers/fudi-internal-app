@@ -45,6 +45,7 @@ function updateDate(): void {
   margin-bottom: 16px;
   &-label {
     font-weight: bold;
+    font-family: $primary-font;
     margin-bottom: 12px;
   }
   &-container {

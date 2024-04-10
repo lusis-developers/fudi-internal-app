@@ -2,7 +2,7 @@
 import CrushTextField from '@nabux-crush/crush-text-field'
 import CrushButton from '@nabux-crush/crush-button'
 import CrushSelect from '@nabux-crush/crush-select'
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import BankData from '@/views/AdminView/BusinessForm/BankData.vue'
@@ -40,7 +40,18 @@ const sendForm = computed(() => {
     business.website !== '' &&
     business.startDate !== '' &&
     businessRules.nameValidation.every((rule) => rule.validate(business.name)) &&
-    businessRules.instagramValidation.every((rule) => rule.validate(business.website));
+    businessRules.instagramValidation.every((rule) => rule.validate(business.website)) &&
+    isFormValid.value; 
+});
+const isFormValid = ref(false);
+const latString = computed({
+  get: () => business.coordinates.lat.toString(),
+  set: (val) => { business.coordinates.lat = parseFloat(val); }
+});
+
+const lngString = computed({
+  get: () => business.coordinates.lng.toString(),
+  set: (val) => { business.coordinates.lng = parseFloat(val); }
 });
 
 const businessRules = {
@@ -54,6 +65,24 @@ const businessRules = {
     {
       validate: (value: string) => value.length >= 2,
       message: 'Instagram debe tener al menos 2 caracteres'
+    },
+  ],
+  latValidation: [
+    {
+      validate: (value: string) => {
+        const num = parseFloat(value);
+        return !isNaN(num) && num >= -90 && num <= 90;
+      },
+      message: 'La latitud debe estar entre -90 y 90'
+    },
+  ],
+  lngValidation: [
+    {
+      validate: (value: string) => {
+        const num = parseFloat(value);
+        return !isNaN(num) && num >= -180 && num <= 180;
+      },
+      message: 'La longitud debe estar entre -180 y 180'
     },
   ],
 };
@@ -75,6 +104,10 @@ function handleDate(value: string) {
   business.startDate = `${day}/${month}/${year}`;
   console.log('fecha de inicio: ', business.startDate)
 }
+function updateBusinessDataValidity(isValid: boolean) {
+  isFormValid.value = isValid;
+}
+
 function submitBusiness() {
   if (sendForm.value) {
     businessStore.saveBusiness(business);
@@ -94,6 +127,14 @@ function submitBusiness() {
       v-model="business.website"
       :label="'Instagram'"
       :valid-rules="businessRules.instagramValidation"/>
+    <CrushTextField
+      v-model="latString"
+      label="Latitud del negocio"
+      :valid-rules="businessRules.latValidation"/>
+    <CrushTextField
+      v-model="lngString"
+      label="Longitud del negocio"
+      :valid-rules="businessRules.lngValidation"/>
     <CalendarInput
       label="Fecha de inicio"
       class="calendar-input"
@@ -107,7 +148,7 @@ function submitBusiness() {
       @update:value="updateStatus"
     />
     <BankData/>
-    <BusinessData/>
+    <BusinessData @update:is-valid="updateBusinessDataValidity"/>
     <CrushButton
       variant="'primary'"
       text="Guardar"

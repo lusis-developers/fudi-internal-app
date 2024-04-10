@@ -13,6 +13,7 @@ export const useBusinessStore = defineStore('businessStore', {
       const randomId = Math.floor(Math.random() * 10000).toString(); 
       newBusiness._id = randomId;
       if (this.businesses) {
+        console.log('nuevo negocio')
         this.businesses.push(newBusiness);
       } else {
         this.businesses = [newBusiness];

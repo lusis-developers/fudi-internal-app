@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { computed, reactive, watchEffect } from 'vue';
 import CrushTextField from '@nabux-crush/crush-text-field'
 import CrushSelect from '@nabux-crush/crush-select'
 import { Category, ItemLabels } from '@/enums';
 
-const items = reactive([
+const emit = defineEmits(['update:isValid'])
+
+const items = reactive<{ category: string; name: string; price: string; }[]>([
   { 
     category: '',
     name: '', 
@@ -12,7 +14,6 @@ const items = reactive([
   }
 ]);
 const categories = [Category.DRINKS, Category.MEALS];
-
 const itemRules = {
   nameValidation: [
     {
@@ -28,13 +29,25 @@ const itemRules = {
   ],
 };
 
-function addItem() {
-  items.push({ category: '', name: '', price: '' });
-}
-
-function removeItem(index: number) {
+function addItem () {
+  items.push({
+    category: '',
+    name: '',
+    price: ''
+  });
+  console.log('itemss: ', items)
+};
+function removeItem (index: number) {
   items.splice(index, 1);
-}
+};
+
+watchEffect(() => {
+  if (items.length > 1) {
+    emit('update:isValid', true);
+  } else {
+    emit('update:isValid', false);
+  }
+});
 </script>
 
 <template>
@@ -48,12 +61,17 @@ function removeItem(index: number) {
         @update:value="(val: string) => item.category = val"/>
       <CrushTextField
         v-model="item.name"
-        :label="item.category === Category.DRINKS ? ItemLabels.DRINK_NAME : ItemLabels.MEAL_NAME"
+        :label="
+          item.category === Category.DRINKS 
+          ? ItemLabels.DRINK_NAME 
+          : ItemLabels.MEAL_NAME"
         :valid-rules="itemRules.nameValidation"/>
       <CrushTextField
         v-model="item.price"
+        :valid-rules="itemRules.priceValidation"
+        :prependContent="'$'" 
         label="Precio"
-        :valid-rules="itemRules.priceValidation"/>
+        />
       <button @click="removeItem(index)">Eliminar</button>
     </div>
     <button @click.prevent="addItem">Agregar</button>
