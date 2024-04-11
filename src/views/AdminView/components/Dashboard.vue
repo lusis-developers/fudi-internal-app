@@ -7,7 +7,7 @@ const businessStore = useBusinessStore()
 
 onMounted(async () => {
   const response = await businessStore.fetchBusiness();
-  console.log('Respuesta en el componente:', response)
+  console.log('Respuesta en el componente:', businessStore.businesses)
 })
 </script>
 

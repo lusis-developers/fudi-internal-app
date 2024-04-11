@@ -17,11 +17,12 @@ export const useBusinessStore = defineStore('businessStore', {
       try {
         const response = await restaurantService.getAllRestaurants();
         console.log('Respuesta de la petición:', response); 
-        this.businesses = response.data
+        this.businesses = response;
+        console.log('negocios', this.businesses)
       } catch (error: any) {
-        console.error('error: ', error)
+        console.error('error: ', error);
         if (error instanceof Error) {
-          this.errorMessage = error.message
+          this.errorMessage = error.message;
         }
       } finally {
         this.isLoading = false;
