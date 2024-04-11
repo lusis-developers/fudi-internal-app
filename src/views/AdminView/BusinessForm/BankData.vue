@@ -2,6 +2,8 @@
 import { computed, reactive, watchEffect } from 'vue';
 import CrushTextField from '@nabux-crush/crush-text-field'
 
+import { bankRules } from '@/utils/Validations';
+
 const emit = defineEmits(['update:bankData'])
 
 const bank = reactive({
@@ -16,33 +18,6 @@ const bank = reactive({
 const sendForm = computed(() => {
   return Object.values(bank).every(value => value !== '');
 });
-
-const bankRules = {
-  bankNameValidation: [
-    {
-      validate: (value: string) => value.length >= 2,
-      message: 'El nombre del banco debe tener al menos 2 caracteres'
-    },
-  ],
-  accountTypeValidation: [
-    {
-      validate: (value: string) => value.length >= 2,
-      message: 'El tipo de cuenta debe tener al menos 2 caracteres'
-    },
-  ],
-  accountNumberValidation: [
-    {
-      validate: (value: string) => /^\d+$/.test(value),
-      message: 'El número de cuenta solo debe contener números'
-    },
-  ],
-  emailValidation: [
-    {
-      validate: (value: string) => /^\S+@\S+\.\S+$/.test(value),
-      message: 'Por favor, introduzca un correo electrónico válido'
-    },
-  ],
-};
 
 watchEffect(() => {
   if (sendForm.value) {
@@ -71,7 +46,7 @@ watchEffect(() => {
       :valid-rules="bankRules.accountNumberValidation"/>
     <CrushTextField
       v-model="bank.accountName"
-      label="Nombre de la cuenta"/>
+      label="Titular de la cuenta"/>
     <CrushTextField
       v-model="bank.identification"
       label="Identificación"

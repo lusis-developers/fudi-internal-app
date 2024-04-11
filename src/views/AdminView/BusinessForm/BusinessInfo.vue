@@ -6,6 +6,7 @@ import CrushSelect from '@nabux-crush/crush-select'
 
 import type { Bank, Business } from '@/typings/Business';
 import { businesStatus } from '@/enums';
+import { businessRules } from '@/utils/Validations'
 
 const emit = defineEmits(['update:business-data']);
 
@@ -35,40 +36,11 @@ const latString = computed({
   get: () => business.coordinates.lat.toString(),
   set: (val) => { business.coordinates.lat = parseFloat(val); }
 });
+const radiusString = computed({
+  get: () => business.coordinates.radius.toString(),
+  set: (val) => { business.coordinates.radius = parseFloat(val); }
+});
 const selectOptions = Object.values(businesStatus)
-
-const businessRules = {
-  nameValidation: [
-    {
-      validate: (value: string) => value.length >= 2,
-      message: 'El nombre debe tener al menos 2 caracteres'
-    },
-  ],
-  instagramValidation: [
-    {
-      validate: (value: string) => value.length >= 2,
-      message: 'Instagram debe tener al menos 2 caracteres'
-    },
-  ],
-  latValidation: [
-    {
-      validate: (value: string) => {
-        const num = parseFloat(value);
-        return !isNaN(num) && num >= -90 && num <= 90;
-      },
-      message: 'La latitud debe estar entre -90 y 90'
-    },
-  ],
-  lngValidation: [
-    {
-      validate: (value: string) => {
-        const num = parseFloat(value);
-        return !isNaN(num) && num >= -180 && num <= 180;
-      },
-      message: 'La longitud debe estar entre -180 y 180'
-    },
-  ],
-};
 
 function handleDate(value: string) {
   const date = new Date(value);
@@ -114,6 +86,10 @@ watchEffect(() => {
       v-model="lngString"
       label="Longitud del negocio"
       :valid-rules="businessRules.lngValidation"/>
+      <CrushTextField
+        v-model="radiusString"
+        label="Radio de alcance de los pedidos"
+        :valid-rules="businessRules.radiusValidation"/>
     <CalendarInput
       label="Fecha de inicio"
       class="calendar-input"

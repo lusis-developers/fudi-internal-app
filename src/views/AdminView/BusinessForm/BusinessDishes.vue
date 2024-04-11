@@ -2,6 +2,8 @@
 import { computed, reactive, watchEffect } from 'vue';
 import CrushTextField from '@nabux-crush/crush-text-field'
 import CrushSelect from '@nabux-crush/crush-select'
+
+import { itemRules } from '@/utils/Validations';
 import { Category, ItemLabels } from '@/enums';
 
 const emit = defineEmits(['update:isValid', 'update:items'])
@@ -14,20 +16,6 @@ const items = reactive<{ category: string; name: string; price: string; }[]>([
   }
 ]);
 const categories = [Category.DRINKS, Category.MEALS];
-const itemRules = {
-  nameValidation: [
-    {
-      validate: (value: string) => value.length >= 2,
-      message: 'El nombre debe tener al menos 2 caracteres'
-    },
-  ],
-  priceValidation: [
-    {
-      validate: (value: string) => !isNaN(Number(value)),
-      message: 'El precio debe ser un número'
-    },
-  ],
-};
 
 function addItem () {
   items.push({
