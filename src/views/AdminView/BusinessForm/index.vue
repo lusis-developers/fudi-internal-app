@@ -24,7 +24,7 @@ const business = reactive<Business>({
     lng: 0,
     radius: 0
   },
-  currency: '',
+  currency: 'USD',
   location: '',
   schedule: '',
   website: '',
@@ -71,12 +71,14 @@ function handleBank(bankData: Bank) {
 }
 function handleInfo (info: Business) {
   business.name = info.name;
+  business.botName = info.botName;
   business.website = info.website;
   business.startDate = info.startDate;
   business.status = info.status;
   business.coordinates.lat = info.coordinates.lat;
   business.coordinates.lng = info.coordinates.lng;
-  business.coordinates.radius = info.coordinates.radius
+  business.coordinates.radius = info.coordinates.radius;
+  business.schedule = info.schedule
 }
 function submitBusiness() {
   if (sendForm.value) {

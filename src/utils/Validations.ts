@@ -38,6 +38,15 @@ export const businessRules = {
       message: 'El radio debe ser un número positivo'
     },
   ],
+  scheduleValidation: [
+    {
+      validate: (value: string) => {
+        const schedulePattern = /^(1[0-2]|0?[1-9])(am|pm) - (1[0-2]|0?[1-9])(am|pm)$/;
+        return schedulePattern.test(value);
+    },
+      message: 'El horario debe estar en el formato "1am - 2pm" o "2pm - 6pm".'
+    },
+  ],
 };
 
 
