@@ -43,7 +43,7 @@ watchEffect(() => {
 
 <template>
   <div class="container">
-    <p>Ahora solo faltan los platos y bebidas 😁😄</p>
+    <p class="container-title">Ahora solo faltan los platos y bebidas 😁😄</p>
     <div v-for="(item, index) in items" :key="index" class="container-form">
       <CrushSelect
         :value="item.category"
@@ -79,6 +79,12 @@ watchEffect(() => {
 
 <style lang="scss" scoped>
 .container {
+  &-title {
+    font-size: 1.5rem;
+    color: $pink;
+    margin: 16px 0;
+    text-align: center;
+  }
   &-form {
     :deep(.form-container-label-select) {
       border: 1px solid $purple;
