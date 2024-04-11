@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, reactive, watchEffect } from 'vue';
 import CrushTextField from '@nabux-crush/crush-text-field'
+import CrushSelect from "@nabux-crush/crush-select";
 
 import { bankRules } from '@/utils/Validations';
+import { TypeAccounts } from '@/enums';
 
 const emit = defineEmits(['update:bankData'])
 
@@ -18,6 +20,14 @@ const bank = reactive({
 const sendForm = computed(() => {
   return Object.values(bank).every(value => value !== '');
 });
+const selectOptions = Object.values(TypeAccounts)
+
+function updateAccountType(value: string) {
+  if (Object.values(TypeAccounts).includes(value as any)) {
+    bank.accountType = value;
+    console.log("Tipo de cuenta actualizado: ", bank.accountType);
+  }
+}
 
 watchEffect(() => {
   if (sendForm.value) {
@@ -36,10 +46,11 @@ watchEffect(() => {
       v-model="bank.bankName"
       label="Nombre del banco"
       :valid-rules="bankRules.bankNameValidation"/>
-    <CrushTextField
-      v-model="bank.accountType"
+    <CrushSelect
       label="Tipo de cuenta"
-      :valid-rules="bankRules.accountTypeValidation"/>
+      :options="selectOptions"
+      :value="bank.accountType"
+      @update:value="updateAccountType" />
     <CrushTextField
       v-model="bank.accountNumber"
       label="Número de cuenta"

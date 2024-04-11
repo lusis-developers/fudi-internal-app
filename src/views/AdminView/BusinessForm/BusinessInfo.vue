@@ -77,51 +77,51 @@ watchEffect(() => {
 </script>
 
 <template>
-	<form class="form">
+	<form class="container">
     <CrushTextField
-		v-model="business.name"
-		:label="'Nombre'"
-		:valid-rules="businessRules.nameValidation" />
-  <CrushTextField
-    v-model="business.botName"
-    label="Nombre del Bot"
-    :valid-rules="businessRules.nameValidation"/>
-	<CrushTextField
-		v-model="business.website"
-		:label="'Instagram'"
-		:valid-rules="businessRules.instagramValidation" />
-	<CrushTextField
-		v-model="latString"
-		label="Latitud del negocio"
-		:valid-rules="businessRules.latValidation" />
-	<CrushTextField
-		v-model="lngString"
-		label="Longitud del negocio"
-		:valid-rules="businessRules.lngValidation" />
-	<CrushTextField
-		v-model="radiusString"
-		label="Radio de alcance de los pedidos"
-		:valid-rules="businessRules.radiusValidation" />
-	<CalendarInput
-		label="Fecha de inicio del bot"
-		class="calendar-input"
-		:value="business.startDate"
-		@input="handleDate" />
-  <CrushTextField
-    v-model="business.schedule"
-    label="Escribe el horario en el que se encuentra abierto el restaurante"
-    hint="Ejemplo: 2pm - 6pm"
-    :valid-rules="businessRules.scheduleValidation" />
-	<CrushSelect
-		label="Status"
-		:options="selectOptions"
-		:value="business.status"
-		@update:value="updateStatus" />
+      v-model="business.name"
+      :label="'Nombre'"
+      :valid-rules="businessRules.nameValidation" />
+    <CrushTextField
+      v-model="business.botName"
+      label="Nombre del Bot"
+      :valid-rules="businessRules.nameValidation"/>
+    <CrushTextField
+      v-model="business.website"
+      :label="'Instagram'"
+      :valid-rules="businessRules.instagramValidation" />
+    <CrushTextField
+      v-model="latString"
+      label="Latitud del negocio"
+      :valid-rules="businessRules.latValidation" />
+    <CrushTextField
+      v-model="lngString"
+      label="Longitud del negocio"
+      :valid-rules="businessRules.lngValidation" />
+    <CrushTextField
+      v-model="radiusString"
+      label="Radio de alcance de los pedidos"
+      :valid-rules="businessRules.radiusValidation" />
+    <CalendarInput
+      label="Fecha de inicio del bot"
+      class="calendar-input"
+      :value="business.startDate"
+      @input="handleDate" />
+    <CrushTextField
+      v-model="business.schedule"
+      label="Escribe el horario en el que se encuentra abierto el restaurante"
+      hint="Ejemplo: 2pm - 6pm"
+      :valid-rules="businessRules.scheduleValidation" />
+    <CrushSelect
+      label="Status"
+      :options="selectOptions"
+      :value="business.status"
+      @update:value="updateStatus" />
   </form>
 </template>
 
 <style lang="scss" scoped>
-.form {
+.container {
   width: 100%;
   :deep(.hint) {
     color: $black;
