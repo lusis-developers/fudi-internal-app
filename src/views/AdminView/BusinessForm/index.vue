@@ -16,7 +16,6 @@ const businessStore = useBusinessStore()
 
 const items = ref<Array<{ category: string; name: string; price: string; }>>([]);
 const business = reactive<Business>({
-  _id: '',
   name: '',
   botName: '',
   coordinates: {
