@@ -1,5 +1,8 @@
+import APIRestaurants from '@/services/Restaurants/Restaurants';
 import type { Business, BusinessState } from '@/typings/Business';
 import { defineStore } from 'pinia';
+
+const restaurantService = new APIRestaurants()
 
 export const useBusinessStore = defineStore('businessStore', {
   state: (): BusinessState => ({
@@ -9,6 +12,22 @@ export const useBusinessStore = defineStore('businessStore', {
     isLoading: false
   }),
   actions: {
+    async fetchBusiness() {
+      this.isLoading = true;
+      try {
+        const response = await restaurantService.getAllRestaurants();
+        console.log('Respuesta de la petición:', response); 
+        this.businesses = response.data
+      } catch (error: any) {
+        console.error('error: ', error)
+        if (error instanceof Error) {
+          this.errorMessage = error.message
+        }
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    
     saveBusiness(newBusiness: Business) {
       const randomId = Math.floor(Math.random() * 10000).toString(); 
       newBusiness._id = randomId;

@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import useBusinessStore from '@/store/businessStore';
+import { onMounted } from 'vue';
 
 
 const businessStore = useBusinessStore()
+
+onMounted(async () => {
+  const response = await businessStore.fetchBusiness();
+  console.log('Respuesta en el componente:', response)
+})
 </script>
 
 <template>
