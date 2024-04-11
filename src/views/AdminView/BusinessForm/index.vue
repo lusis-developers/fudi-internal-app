@@ -76,6 +76,7 @@ function handleInfo (info: Business) {
   business.status = info.status;
   business.coordinates.lat = info.coordinates.lat;
   business.coordinates.lng = info.coordinates.lng;
+  business.coordinates.radius = info.coordinates.radius
 }
 function submitBusiness() {
   if (sendForm.value) {

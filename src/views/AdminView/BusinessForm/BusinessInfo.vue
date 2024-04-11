@@ -63,7 +63,8 @@ watchEffect(() => {
       business.website !== '' &&
       business.startDate !== '' &&
       business.coordinates.lat !== 0 &&
-      business.coordinates.lng !== 0) {
+      business.coordinates.lng !== 0 &&
+      business.coordinates.radius !== 0) {
     emit('update:business-data', business);
   }
 });
@@ -86,10 +87,10 @@ watchEffect(() => {
       v-model="lngString"
       label="Longitud del negocio"
       :valid-rules="businessRules.lngValidation"/>
-      <CrushTextField
-        v-model="radiusString"
-        label="Radio de alcance de los pedidos"
-        :valid-rules="businessRules.radiusValidation"/>
+    <CrushTextField
+      v-model="radiusString"
+      label="Radio de alcance de los pedidos"
+      :valid-rules="businessRules.radiusValidation"/>
     <CalendarInput
       label="Fecha de inicio"
       class="calendar-input"
