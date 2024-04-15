@@ -35,18 +35,17 @@ function updateAccountType(value: string) {
   }
 }
 
+watchEffect(() => {
+  if (sendForm.value) {
+    emit('update:bankData', bank);
+  }
+});
+
 onMounted(async () => {
   const id = route.params.id;
   const response = businessStore.getBusinessById(id as any);
   if (response) {
-    console.log('respuesta de banco: ', response)
     Object.assign(bank, response.bank);
-  }
-});
-
-watchEffect(() => {
-  if (sendForm.value) {
-    emit('update:bankData', bank);
   }
 });
 </script>

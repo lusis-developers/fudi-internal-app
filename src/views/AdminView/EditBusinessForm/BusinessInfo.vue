@@ -66,15 +66,6 @@ function updateStatus(value: string) {
   }
 }
 
-onMounted(async () => {
-  const id = route.params.id;
-  const response = businessStore.getBusinessById(id as any);
-  if (response) {
-    console.log('respuesta de info de restaurante: ', response)
-    Object.assign(business, response);
-  }
-});
-
 watchEffect(() => {
   if (
     business.name !== "" &&
@@ -87,6 +78,14 @@ watchEffect(() => {
     business.schedule !== ""
   ) {
     emit("update:business-data", business);
+  }
+});
+
+onMounted(async () => {
+  const id = route.params.id;
+  const response = businessStore.getBusinessById(id as any);
+  if (response) {
+    Object.assign(business, response);
   }
 });
 </script>

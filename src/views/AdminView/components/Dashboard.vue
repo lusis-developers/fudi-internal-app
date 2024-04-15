@@ -6,8 +6,7 @@ import { onMounted } from 'vue';
 const businessStore = useBusinessStore()
 
 onMounted(async () => {
-  const response = await businessStore.fetchBusiness();
-  console.log('Respuesta en el componente:', businessStore.businesses)
+  await businessStore.fetchBusiness();
 })
 </script>
 

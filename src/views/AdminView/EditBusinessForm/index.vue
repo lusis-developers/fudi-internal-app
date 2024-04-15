@@ -61,10 +61,6 @@ onMounted(async () => {
     <BusinessInfo/>
     <BankData/>
     <BusinessDishes />
-    <!-- <CrushTextField 
-      v-model:value="business.name"
-      label="Nombre del deporte"
-      placeholder="Money Week" /> -->
    </div>
     <div class="actions-container">
       <CrushButton 

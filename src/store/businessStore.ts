@@ -16,9 +16,7 @@ export const useBusinessStore = defineStore('businessStore', {
       this.isLoading = true;
       try {
         const response = await restaurantService.getAllRestaurants();
-        console.log('Respuesta de la petición:', response); 
         this.businesses = response;
-        console.log('negocios', this.businesses);
       } catch (error: any) {
         console.error('error: ', error);
         if (error instanceof Error) {
