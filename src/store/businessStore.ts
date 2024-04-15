@@ -42,6 +42,12 @@ export const useBusinessStore = defineStore('businessStore', {
           this.errorMessage = error.message;
         }
       }
+    },
+    getBusinessById(id: string) {
+      if (this.businesses) {
+        return this.businesses.find(business => business._id === id)
+      }
+      return null
     }
   }
 });

@@ -8,6 +8,7 @@ const AdminContainer = () => import ('@/components/admin/layout/AdminContainer.v
 import HomeView from '@/views/HomeView/index.vue';
 import AdminView from '@/views/AdminView/index.vue'
 import AddBusinessView from '@/views/AdminView/BusinessForm/index.vue'
+import EditBusinessView from '@/views/AdminView/EditBusinessForm/index.vue'
 import { checkAccess } from './routerAccess';
 
 const routes = [
@@ -32,13 +33,19 @@ const routes = [
         path: '',
         name: 'admin',
         component: AdminView,
-        meta: { requiresAdmin: true}
+        meta: { requiresAdmin: true }
       },
       {
         path: 'addBusiness',
         name: 'addBusiness',
         component: AddBusinessView,
-        meta: { requiresAdmin: true}
+        meta: { requiresAdmin: true }
+      },
+      {
+        path: 'edit/:id',
+        name: 'editBusiness',
+        component: EditBusinessView,
+        meta: { requieresAdmin: true }
       }
     ]
   }

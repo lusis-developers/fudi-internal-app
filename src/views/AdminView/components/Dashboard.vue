@@ -36,7 +36,7 @@ onMounted(async () => {
 					<td class="container-table-body-items-item">{{ business.startDate }}</td>
 					<td class="container-table-body-items-item">{{ business.status }}</td>
 					<td class="container-table-body-items-item">
-						<button>verr</button>
+						<RouterLink :to="{ name: 'editBusiness', params: { id: business._id } }">ver</RouterLink>
 					</td>
 				</tr>
 			</tbody>
