@@ -67,18 +67,7 @@ function updateStatus(value: string) {
 }
 
 watchEffect(() => {
-  if (
-    business.name !== "" &&
-    business.botName !== "" &&
-    business.website !== "" &&
-    business.startDate !== "" &&
-    business.coordinates.lat !== 0 &&
-    business.coordinates.lng !== 0 &&
-    business.coordinates.radius !== 0 &&
-    business.schedule !== ""
-  ) {
-    emit("update:business-data", business);
-  }
+  emit("update:business-data", business);
 });
 
 onMounted(async () => {

@@ -50,14 +50,12 @@ function removeDrink () {
   if (id) {
     console.log('id en condicion', id)
     businessStore.removeDrinkFromBusiness(id, selectedDrinkName.value);
-    // Actualizar la lista de items
     const index = items.findIndex(item => item.name === selectedDrinkName.value && item.category === Category.DRINKS);
     if (index !== -1) {
       items.splice(index, 1);
     }
   }
 };
-
 watchEffect(() => {
   if (items.length > 1) {
     emit('update:isValid', true);

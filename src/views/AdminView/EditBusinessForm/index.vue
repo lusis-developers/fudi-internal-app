@@ -6,7 +6,7 @@ import CrushTextField from '@nabux-crush/crush-text-field';
 
 import useBusinessStore from '@/store/businessStore';
 import type { Business, Bank } from '@/typings/Business';
-import { businesStatus } from '@/enums';
+import { businesStatus, Category } from '@/enums';
 import BankData from '@/views/AdminView/EditBusinessForm/BankData.vue';
 import BusinessDishes from '@/views/AdminView/EditBusinessForm/BusinessDishes.vue';
 import BusinessInfo from '@/views/AdminView/EditBusinessForm/BusinessInfo.vue';
@@ -43,11 +43,26 @@ const business = reactive<Business>({
 });
 
 async function updateBusiness () {
+  console.log('business actualizado: ', business)
   await businessStore.updateBusiness(business)
 }
 
 function closeEdit() {
   emit('close-edit')
+}
+function handleBusinessData(updatedData: Business) {
+  console.log('data negocio actaulizada', updatedData)
+  Object.assign(business, updatedData);
+}
+
+function handleBankData(updatedBankData: Bank) {
+  Object.assign(business.bank, updatedBankData);
+}
+
+function handleItems(updatedItems: any) {
+  console.log('upadated items', updatedItems)
+  business.drinks = updatedItems.filter((item: any) => item.category === Category.DRINKS);
+  business.meals = updatedItems.filter((item: any) => item.category === Category.MEALS);
 }
 
 onMounted(async () => {
@@ -62,9 +77,9 @@ onMounted(async () => {
 <template>
   <div class="container">
    <div class="form">
-    <BusinessInfo/>
-    <BankData/>
-    <BusinessDishes />
+    <BusinessInfo @update:business-data="handleBusinessData"/>
+    <BankData @update:bank-data="handleBankData"/>
+    <BusinessDishes @update:items="handleItems"/>
    </div>
     <div class="actions-container">
       <CrushButton 
