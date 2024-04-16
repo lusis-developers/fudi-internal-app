@@ -46,16 +46,13 @@ async function updateBusiness () {
   console.log('business actualizado: ', business)
   await businessStore.updateBusiness(business)
 }
-
-function closeEdit() {
-  emit('close-edit')
-}
 function handleBusinessData(updatedData: Business) {
   console.log('data negocio actaulizada', updatedData)
   Object.assign(business, updatedData);
 }
 
 function handleBankData(updatedBankData: Bank) {
+  console.log('updated bank data: ', updatedBankData)
   Object.assign(business.bank, updatedBankData);
 }
 
@@ -78,14 +75,13 @@ onMounted(async () => {
   <div class="container">
    <div class="form">
     <BusinessInfo @update:business-data="handleBusinessData"/>
-    <BankData @update:bank-data="handleBankData"/>
+    <BankData @update:bank="handleBankData"/>
     <BusinessDishes @update:items="handleItems"/>
    </div>
     <div class="actions-container">
       <CrushButton 
         variant="secondary"
-        text="Cancelar"
-        @click="closeEdit"/>
+        text="Cancelar"/>
       <CrushButton
         class="actions-container-second"
         variant="primary"

@@ -117,8 +117,6 @@ onMounted(async () => {
       :options="selectOptions"
       :value="business.status"
       @update:value="updateStatus" />
-    <CrushButton
-      text="Actualizar"/>
   </form>
 </template>
 
