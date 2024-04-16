@@ -16,6 +16,7 @@ const businessStore = useBusinessStore();
 const emit = defineEmits(['update:isValid', 'update:items'])
 
 let selectedDrinkName = ref('');
+let selectedMealName = ref('')
 const items = reactive<{ category: string; name: string; price: string; }[]>([
   { 
     category: '',
@@ -44,6 +45,9 @@ function addItem () {
 function selectDrink(name: string) {
   selectedDrinkName.value = name;
 }
+function selectMeal(name: string) {
+  selectedMealName.value = name;
+}
 function removeDrink () {
   const id = route.params.id as string;
   console.log('drink name: ', selectedDrinkName.value);
@@ -51,6 +55,18 @@ function removeDrink () {
     console.log('id en condicion', id)
     businessStore.removeDrinkFromBusiness(id, selectedDrinkName.value);
     const index = items.findIndex(item => item.name === selectedDrinkName.value && item.category === Category.DRINKS);
+    if (index !== -1) {
+      items.splice(index, 1);
+    }
+  }
+};
+function removeMeal () {
+  const id = route.params.id as string;
+  console.log('meal name: ', selectedMealName.value);
+  if (id) {
+    console.log('id en condicion', id)
+    businessStore.removeMealFromBusiness(id, selectedDrinkName.value);
+    const index = items.findIndex(item => item.name === selectedMealName.value && item.category === Category.MEALS);
     if (index !== -1) {
       items.splice(index, 1);
     }
@@ -97,8 +113,12 @@ onMounted(async () => {
     </div>
     <h2 class="container-subtitle">Platos</h2>
     <div class="container-cards">
-      <ItemCard v-for="item in meals" :name="item.name" :price="item.price"/>
-      <button>Eliminar</button>
+      <ItemCard 
+        v-for="item in meals" 
+        :name="item.name"
+        :price="item.price"
+        @select="() => selectMeal(item.name)"/>
+      <button v-if="selectedMealName" @click="removeMeal">Eliminar</button>
     </div>
     <button
       @click.prevent="addItem"

@@ -57,6 +57,16 @@ export const useBusinessStore = defineStore('businessStore', {
         }
       }
     },
+    removeMealFromBusiness(businessId: string, mealName: string) {
+      const business = this.businesses?.find(business => business._id === businessId);
+      if (business && business.meals) {
+        const mealIndex = business.meals.findIndex(meal => meal.name === mealName);
+        if (mealIndex !== -1) {
+          business.meals.splice(mealIndex, 1);
+          console.log('meals en store', business.meals)
+        }
+      }
+    },
     async updateBusiness(updatedBusiness: Business) {
       try {
         const response = await restaurantService.editRestaurant(updatedBusiness)
