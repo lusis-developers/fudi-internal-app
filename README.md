@@ -12,7 +12,7 @@ Para instalar las dependencias del proyecto, ejecuta el siguiente comando:
 ```pnpm install```
 
 
-Para iniciar el servidor de desarrollo con recarga en caliente, ejecuta:
+Para iniciar el servidor de desarrollo, ejecuta:
 
 
 ```pnpm dev```
