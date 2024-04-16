@@ -93,7 +93,7 @@ onMounted(async () => {
         :name="item.name" 
         :price="item.price" 
         @select="() => selectDrink(item.name)"/>
-      <button @click="removeDrink">Eliminar</button>
+      <button v-if="selectedDrinkName" @click="removeDrink">Eliminar</button>
     </div>
     <h2 class="container-subtitle">Platos</h2>
     <div class="container-cards">

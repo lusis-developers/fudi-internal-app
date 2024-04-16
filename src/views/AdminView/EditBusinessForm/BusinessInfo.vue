@@ -3,6 +3,7 @@ import CalendarInput from "@/components/Global/Calendar.vue";
 import CrushTextField from "@nabux-crush/crush-text-field";
 import { computed, onMounted, reactive, watchEffect } from "vue";
 import CrushSelect from "@nabux-crush/crush-select";
+import CrushButton from "@nabux-crush/crush-button"
 
 import { businesStatus } from "@/enums";
 import { businessRules } from "@/utils/Validations";
@@ -66,10 +67,6 @@ function updateStatus(value: string) {
   }
 }
 
-watchEffect(() => {
-  emit("update:business-data", business);
-});
-
 onMounted(async () => {
   const id = route.params.id;
   const response = businessStore.getBusinessById(id as any);
@@ -120,6 +117,8 @@ onMounted(async () => {
       :options="selectOptions"
       :value="business.status"
       @update:value="updateStatus" />
+    <CrushButton
+      text="Actualizar"/>
   </form>
 </template>
 
