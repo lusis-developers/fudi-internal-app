@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, watchEffect } from 'vue';
+import { computed, onMounted, reactive, ref, watchEffect } from 'vue';
 import CrushTextField from '@nabux-crush/crush-text-field'
 import CrushSelect from '@nabux-crush/crush-select'
 import { useRoute } from 'vue-router';
@@ -15,6 +15,7 @@ const businessStore = useBusinessStore();
 
 const emit = defineEmits(['update:isValid', 'update:items'])
 
+let selectedDrinkName = ref('');
 const items = reactive<{ category: string; name: string; price: string; }[]>([
   { 
     category: '',
@@ -27,7 +28,6 @@ const categories = [Category.DRINKS, Category.MEALS];
 const drinks = computed(() => {
   return items.filter(item => item.category === Category.DRINKS);
 });
-
 const meals = computed(() => {
   return items.filter(item => item.category === Category.MEALS);
 });
@@ -40,8 +40,22 @@ function addItem () {
   });
   console.log('itemss: ', items)
 };
-function removeItem (index: number) {
-  items.splice(index, 1);
+
+function selectDrink(name: string) {
+  selectedDrinkName.value = name;
+}
+function removeDrink () {
+  const id = route.params.id as string;
+  console.log('drink name: ', selectedDrinkName.value);
+  if (id) {
+    console.log('id en condicion', id)
+    businessStore.removeDrinkFromBusiness(id, selectedDrinkName.value);
+    // Actualizar la lista de items
+    const index = items.findIndex(item => item.name === selectedDrinkName.value && item.category === Category.DRINKS);
+    if (index !== -1) {
+      items.splice(index, 1);
+    }
+  }
 };
 
 watchEffect(() => {
@@ -55,13 +69,15 @@ watchEffect(() => {
   }
 });
 
+watchEffect(() => {
+  items.filter(item => item.category === Category.DRINKS);
+});
+
 onMounted(async () => {
   const id = route.params.id;
   const response = businessStore.getBusinessById(id as any);
   if (response) {
     const {meals, drinks} = response;
-    console.log('meals: ', meals)
-    console.log('drinks: ', drinks)
     meals.forEach(meal => items.push({category: Category.MEALS, name: meal.name, price: meal.price}));
     drinks.forEach(drink => items.push({category: Category.DRINKS, name: drink.name, price: drink.price}));
   }
@@ -73,12 +89,18 @@ onMounted(async () => {
     <p class="container-title">Ahora echa un vistazo a los platos y bebidas 😁😄</p>
     <h2 class="container-subtitle">Bebidas</h2>
     <div class="container-cards">
-      <ItemCard v-for="item in drinks" :name="item.name" :price="item.price"/>
+      <ItemCard 
+        v-for="item in drinks" 
+        :key="item.name" 
+        :name="item.name" 
+        :price="item.price" 
+        @select="() => selectDrink(item.name)"/>
+      <button @click="removeDrink">Eliminar</button>
     </div>
-
     <h2 class="container-subtitle">Platos</h2>
     <div class="container-cards">
       <ItemCard v-for="item in meals" :name="item.name" :price="item.price"/>
+      <button>Eliminar</button>
     </div>
     <button
       @click.prevent="addItem"

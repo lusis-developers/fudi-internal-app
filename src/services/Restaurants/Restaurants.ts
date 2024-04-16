@@ -9,6 +9,9 @@ class APIRestaurants extends APIBase {
   async addRestaurant(restaurant: Business): Promise<AxiosResponse<any>> {
     return this.post('add-restaurant', restaurant)
   }
+  async editRestaurant(restaurant: Business): Promise<AxiosResponse<any>> {
+    return this.put('edit-something-restaurant', restaurant)
+  }
 }
 
 export default APIRestaurants

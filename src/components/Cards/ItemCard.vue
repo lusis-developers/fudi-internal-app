@@ -16,6 +16,7 @@ const props = defineProps({
     <div class="card-container-body">
       <h5 class="card-container-body-title">{{ name }}</h5>
       <h6 class="card-container-body-subtitle">precio: ${{ price }}</h6>
+      <button @click="$emit('select')">Detalle</button>
     </div>
   </div>
 </template>

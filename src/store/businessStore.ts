@@ -46,6 +46,33 @@ export const useBusinessStore = defineStore('businessStore', {
         return this.businesses.find(business => business._id === id)
       }
       return null
+    },
+    removeDrinkFromBusiness(businessId: string, drinkName: string) {
+      const business = this.businesses?.find(business => business._id === businessId);
+      if (business && business.drinks) {
+        const drinkIndex = business.drinks.findIndex(drink => drink.name === drinkName);
+        if (drinkIndex !== -1) {
+          business.drinks.splice(drinkIndex, 1);
+          console.log('drinks en store', business.drinks)
+        }
+      }
+    },
+    async updateBusiness(updatedBusiness: Business) {
+      try {
+        const response = await restaurantService.editRestaurant(updatedBusiness)
+        console.log('response en edit', response)
+        if (this.businesses) {
+          const index = this.businesses.findIndex(business => business._id === updatedBusiness._id)
+          if (index !== -1) {
+            this.businesses[index] = response
+          }
+        }
+      } catch (error) {
+        console.error('error updating restaurant: ', error)
+        if (error instanceof Error) {
+          this.errorMessage = error.message;
+        }
+      }
     }
   }
 });

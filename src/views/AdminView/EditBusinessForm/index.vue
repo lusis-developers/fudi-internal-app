@@ -42,6 +42,10 @@ const business = reactive<Business>({
   } as Bank,
 });
 
+async function updateBusiness () {
+  await businessStore.updateBusiness(business)
+}
+
 function closeEdit() {
   emit('close-edit')
 }
@@ -70,7 +74,8 @@ onMounted(async () => {
       <CrushButton
         class="actions-container-second"
         variant="primary"
-        text="Actualizar" />
+        text="Actualizar" 
+        @click="updateBusiness"/>
     </div>
   </div>
 </template>
