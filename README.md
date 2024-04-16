@@ -1,6 +1,6 @@
 # Internal-app
 
-Este proyecto es una aplicación web desarrollada con Vue 3 y Vite. Se utiliza para gestionar negocios, bancos y elementos de menú en un sistema de administración.
+Este proyecto es una aplicación web desarrollada con Vue 3 y Vite. Se utiliza para gestionar restaurantes, sus bancos y sus respectivos items de menú en un sistema de administración.
 
 ## Configuración del entorno de desarrollo
 
