@@ -1,33 +1,42 @@
-# internal-app
+# Internal-app
 
-This template should help get you started developing with Vue 3 in Vite.
+Este proyecto es una aplicación web desarrollada con Vue 3 y Vite. Se utiliza para gestionar negocios, bancos y elementos de menú en un sistema de administración.
 
-## Recommended IDE Setup
+## Configuración del entorno de desarrollo
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Recomendamos el uso de [VSCode](https://code.visualstudio.com/) con la extensión [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) para un mejor soporte de TypeScript en archivos `.vue`. Asegúrate de desactivar la extensión Vetur si la tienes instalada.
 
-## Type Support for `.vue` Imports in TS
+Para instalar las dependencias del proyecto, ejecuta el siguiente comando:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
 
-## Customize configuration
+```pnpm install```
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+Para iniciar el servidor de desarrollo con recarga en caliente, ejecuta:
 
-```sh
-pnpm install
-```
 
-### Compile and Hot-Reload for Development
+```pnpm dev```
 
-```sh
-pnpm dev
-```
 
-### Type-Check, Compile and Minify for Production
+Para compilar y minificar para producción, ejecuta:
 
-```sh
-pnpm build
-```
+
+
+```pnpm build```
+
+
+## Estructura del proyecto
+
+El proyecto sigue una estructura de carpetas estándar de Vue. Los componentes se encuentran en la carpeta `src/components`, las vistas en `src/views` y las utilidades en `src/utils`. Las reglas de validación y los elementos del menú se definen en `src/utils/Validations.ts` y `src/utils/menuItems.ts` respectivamente.
+
+Los estilos globales se definen en `src/styles/main.scss`.
+
+## Funcionalidad principal
+
+La funcionalidad principal del proyecto se centra en la gestión de restaurantes, su cuenta bancaria y elementos de su menú. Los formularios para la creación y edición de estos elementos se encuentran en `src/views/AdminView/BusinessForm` y `src/views/AdminView/EditBusinessForm`.
+
+Las validaciones para los campos de los formularios se definen en `src/utils/Validations.ts` y se utilizan en los componentes de los formularios.
+
+## Contribuir
+
+Para contribuir al proyecto, asegúrate de seguir las convenciones de código existentes y de probar tu código antes de enviar un pull request. Si tienes alguna pregunta o problema, no dudes en abrir un issue.
