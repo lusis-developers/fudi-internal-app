@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import CrushButton from '@nabux-crush/crush-button'
 import CrushTextField from '@nabux-crush/crush-text-field';
 
@@ -12,6 +12,7 @@ import BusinessDishes from '@/views/AdminView/EditBusinessForm/BusinessDishes.vu
 import BusinessInfo from '@/views/AdminView/EditBusinessForm/BusinessInfo.vue';
 
 const route = useRoute();
+const router = useRouter();
 const businessStore = useBusinessStore();
 const emit = defineEmits(['close-edit']);
 
@@ -61,6 +62,9 @@ function handleItems(updatedItems: any) {
   business.drinks = updatedItems.filter((item: any) => item.category === Category.DRINKS);
   business.meals = updatedItems.filter((item: any) => item.category === Category.MEALS);
 }
+function cancelEditing() {
+  router.push('/admin')
+}
 
 onMounted(async () => {
   const id = route.params.id;
@@ -81,7 +85,8 @@ onMounted(async () => {
     <div class="actions-container">
       <CrushButton 
         variant="secondary"
-        text="Cancelar"/>
+        text="Cancelar"
+        @click="cancelEditing"/>
       <CrushButton
         class="actions-container-second"
         variant="primary"
@@ -94,6 +99,13 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .container {
   padding-bottom: 24px;
+  .actions-container {
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+  }
 }
 .form {
   width: 80%;

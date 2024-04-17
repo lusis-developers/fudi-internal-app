@@ -23,7 +23,7 @@ function addItem () {
     name: '',
     price: ''
   });
-  console.log('itemss: ', items)
+  console.log('itemssForm: ', items)
 };
 function removeItem (index: number) {
   items.splice(index, 1);

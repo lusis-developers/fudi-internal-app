@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import CalendarInput from "@/components/Global/Calendar.vue";
 import CrushTextField from "@nabux-crush/crush-text-field";
-import { computed, onMounted, reactive, watchEffect } from "vue";
+import { computed, onMounted, reactive, watch } from "vue";
 import CrushSelect from "@nabux-crush/crush-select";
 import CrushButton from "@nabux-crush/crush-button"
-
 import { businesStatus } from "@/enums";
 import { businessRules } from "@/utils/Validations";
 import { useRoute } from "vue-router";
 import useBusinessStore from "@/store/businessStore";
 
-const route = useRoute();
-
-const businessStore = useBusinessStore()
-
 const emit = defineEmits(["update:business-data"]);
+
+const route = useRoute()
+const businessStore = useBusinessStore()
 
 const business = reactive({
   name: "",
@@ -31,6 +29,25 @@ const business = reactive({
     radius: 0,
   },
 });
+
+const updateName = createUpdateFunction('name');
+const updateWebsite = createUpdateFunction('website');
+const updateStartDate = createUpdateFunction('startDate');
+const updateStatusValue = createUpdateFunction('status');
+const updateBotName = createUpdateFunction('botName');
+const updateCurrency = createUpdateFunction('currency')
+const updateLocation = createUpdateFunction('location')
+const updateSchedule = createUpdateFunction('schedule')
+const updateLngString = (newVal: string) => {
+  business.coordinates.lng = parseFloat(newVal);
+};
+const updateLatString = (newVal: string) => {
+  business.coordinates.lat = parseFloat(newVal);
+};
+const updateRadiusString = (newVal: string) => {
+  business.coordinates.radius = parseFloat(newVal);
+};
+
 const lngString = computed({
   get: () => business.coordinates.lng.toString(),
   set: (val) => {
@@ -51,6 +68,11 @@ const radiusString = computed({
 });
 const selectOptions = Object.values(businesStatus);
 
+function createUpdateFunction(field: keyof typeof business ) {
+  return (newVal: any) => {
+    business[field] = newVal;
+  };
+}
 function handleDate(value: string) {
   const date = new Date(value);
   const day = String(date.getUTCDate()).padStart(2, "0");
@@ -67,6 +89,13 @@ function updateStatus(value: string) {
   }
 }
 
+watch(() => business, (newBusiness, oldBusiness) => {
+  console.log('El objeto businessInfo antiguo:', oldBusiness);
+  console.log('El objeto businessInfo nuevo:', newBusiness);
+  console.log('banco que esta emitiendose', business)
+  emit('update:business-data', business)
+}, { deep: true });
+
 onMounted(async () => {
   const id = route.params.id;
   const response = businessStore.getBusinessById(id as any);
@@ -81,37 +110,45 @@ onMounted(async () => {
     <CrushTextField
       v-model:value="business.name"
       :label="'Nombre'"
-      :valid-rules="businessRules.nameValidation" />
+      :valid-rules="businessRules.nameValidation" 
+      @update:modelValue="updateName"/>
     <CrushTextField
       v-model:value="business.botName"
       label="Nombre del Bot"
-      :valid-rules="businessRules.nameValidation"/>
+      :valid-rules="businessRules.nameValidation"
+      @update:modelValue="updateBotName"/>
     <CrushTextField
       v-model:value="business.website"
       :label="'Instagram'"
-      :valid-rules="businessRules.instagramValidation" />
+      :valid-rules="businessRules.instagramValidation" 
+      @update:modelValue="updateWebsite"/>
     <CrushTextField
       v-model:value="latString"
       label="Latitud del negocio"
-      :valid-rules="businessRules.latValidation" />
+      :valid-rules="businessRules.latValidation" 
+      @update:modelValue="updateLatString"/>
     <CrushTextField
       v-model:value="lngString"
       label="Longitud del negocio"
-      :valid-rules="businessRules.lngValidation" />
+      :valid-rules="businessRules.lngValidation" 
+      @update:modelValue="updateLngString"/>
     <CrushTextField
       v-model:value="radiusString"
       label="Radio de alcance de los pedidos"
-      :valid-rules="businessRules.radiusValidation" />
+      :valid-rules="businessRules.radiusValidation" 
+      @update:modelValue="updateRadiusString"/>
     <CalendarInput
       label="Fecha de inicio del bot"
       class="calendar-input"
       :value="business.startDate"
-      @input="handleDate" />
+      @input="handleDate" 
+      @update:modelValue="updateStartDate"/>
     <CrushTextField
       v-model:value="business.schedule"
       label="Escribe el horario en el que se encuentra abierto el restaurante"
       hint="Ejemplo: 2pm - 6pm"
-      :valid-rules="businessRules.scheduleValidation" />
+      :valid-rules="businessRules.scheduleValidation" 
+      @update:modelValue="updateSchedule"/>
     <CrushSelect
       label="Status"
       :options="selectOptions"
