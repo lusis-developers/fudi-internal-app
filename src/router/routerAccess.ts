@@ -8,6 +8,6 @@ export async function checkAccess(to: RouteLocationNormalized, _from: RouteLocat
   if (password === 'soydenissita' && to.meta.requiresAdmin) {
     next();
   } else {
-    next();
+    next('/');
   }
 }
