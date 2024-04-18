@@ -7,6 +7,10 @@ const props = defineProps({
   price: {
     type: String,
     required: true
+  },
+  showRemoveButton: {
+    type: Boolean,
+    default: false
   }
 })
 </script>
@@ -14,10 +18,24 @@ const props = defineProps({
 <template>
   <div class="card">
     <div class="card-container-body">
-      <h5 class="card-container-body-title">{{ name }}</h5>
-      <h6 class="card-container-body-subtitle">precio: ${{ price }}</h6>
-      <button @click="$emit('select')">Detalle</button>
+      <h5 class="card-container-body-title">
+        {{ name }}
+      </h5>
+      <h6 class="card-container-body-subtitle">
+        precio: ${{ price }}
+      </h6>
+      <button 
+        class="card-container-body-button" 
+        @click="$emit('select')">
+          Detalle
+      </button>
     </div>
+    <button
+      v-if="showRemoveButton"
+      class="button-remove"
+      @click="$emit('remove')">
+        Eliminar  
+    </button> 
   </div>
 </template>
 
@@ -28,18 +46,45 @@ const props = defineProps({
   border-radius: 8px;
   padding: 16px;
   &-container-body {
+    font-family: $secondary-font;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
     &-title {
-      color: $black;
+      color: $white;
       text-align: center;
-      font-size: $font-size-normal;
-      font-family: $primary-font;
+      font-size: 1.25rem;
+      text-transform: capitalize;
     }
     &-subtitle {
-      color: $black;
+      color: $white;
       text-align: center;
       font-size: 1rem;
-      font-family: $primary-font;
+    }
+    &-button {
+      font-family: $secondary-font;
+      background-color: $white;
+      color: $black;
+      border: none;
+      border-radius: 8px;
+      padding: 8px;
+      width: 100%;
+      cursor: pointer;
     }
   }
+}
+.button-remove{
+  font-family: $secondary-font;
+  font-weight: $font-weight-bold;
+  font-size: .9rem;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 8px;
+  color: #fff;
+  background-color: $black;
+  padding: 8px 16px;
+  margin-top: 8px;
 }
 </style>

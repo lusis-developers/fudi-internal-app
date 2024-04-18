@@ -115,6 +115,7 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .container-title {
   font-size: 1.5rem;
+  font-weight: $font-weight-bold;
   text-align: center;
   padding: 24px 0;
   color: $pink;

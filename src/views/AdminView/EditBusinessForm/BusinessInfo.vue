@@ -8,6 +8,7 @@ import { businesStatus } from "@/enums";
 import { businessRules } from "@/utils/Validations";
 import { useRoute } from "vue-router";
 import useBusinessStore from "@/store/businessStore";
+import { nextTick } from "process";
 
 const emit = defineEmits(["update:business-data"]);
 
@@ -29,14 +30,10 @@ const business = reactive({
     radius: 0,
   },
 });
-
 const updateName = createUpdateFunction('name');
 const updateWebsite = createUpdateFunction('website');
 const updateStartDate = createUpdateFunction('startDate');
-const updateStatusValue = createUpdateFunction('status');
 const updateBotName = createUpdateFunction('botName');
-const updateCurrency = createUpdateFunction('currency')
-const updateLocation = createUpdateFunction('location')
 const updateSchedule = createUpdateFunction('schedule')
 const updateLngString = (newVal: string) => {
   business.coordinates.lng = parseFloat(newVal);
@@ -97,6 +94,8 @@ watch(() => business, (newBusiness, oldBusiness) => {
 }, { deep: true });
 
 onMounted(async () => {
+  const $inputDisable = document.querySelector('.crush-text-field-input')
+  $inputDisable?.setAttribute('disabled', 'true');
   const id = route.params.id;
   const response = businessStore.getBusinessById(id as any);
   if (response) {

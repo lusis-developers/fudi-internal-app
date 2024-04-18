@@ -5,9 +5,20 @@ import { onMounted } from 'vue';
 
 const businessStore = useBusinessStore()
 
+function updateBusinessStatusColor(status: string) {
+  switch (status) {
+    case 'pendiente':
+      return 'background-color: #ffff00';
+    case 'desplegado':
+      return 'background-color: #008000';
+    case 'inactivo':
+      return 'background-color: #ff0000';
+  }
+}
 onMounted(async () => {
   await businessStore.fetchBusiness();
 })
+
 </script>
 
 <template>
@@ -18,7 +29,7 @@ onMounted(async () => {
 					<th class="container-table-sections-section-name">Id</th>
 					<th class="container-table-sections-section-name">Nombre</th>
 					<th class="container-table-sections-section-name">Sitio web</th>
-					<th class="container-table-sections-section-name">fecha de inicio </th>
+					<th class="container-table-sections-section-name">Fecha de inicio </th>
 					<th class="container-table-sections-section-name">Status</th>
 					<th class="container-table-sections-section-name">Detalles</th>
 				</tr>
@@ -31,9 +42,19 @@ onMounted(async () => {
           >
 					<td class="container-table-body-items-item">{{ business._id }}</td>
 					<td class="container-table-body-items-item">{{ business.name }}</td>
-					<td class="container-table-body-items-item">{{ business.website }}</td>
+					<td class="container-table-body-items-item">
+            <a 
+              :href="business.website"
+              class="container-table-body-items-item-link" 
+              target="_blank">
+              {{ business.website }}
+            </a>
+          </td>
 					<td class="container-table-body-items-item">{{ business.startDate }}</td>
-					<td class="container-table-body-items-item">{{ business.status }}</td>
+					<td 
+            class="container-table-body-items-item"
+            :style="updateBusinessStatusColor(business.status)"
+          >{{ business.status }}</td>
 					<td class="container-table-body-items-item">
 						<RouterLink :to="{ name: 'editBusiness', params: { id: business._id } }">ver</RouterLink>
 					</td>
@@ -54,6 +75,7 @@ onMounted(async () => {
     &-sections {
       &-section {
         border-radius: 8px;
+        font-family: $primary-font;
         &-name {
           background-color: $pink;
           color: $white;
@@ -65,12 +87,16 @@ onMounted(async () => {
     }
     &-body {
       &-items {
+        font-family: $secondary-font;
+        font-size: .9rem;
         &-item {
           padding: 0.5rem;
           border-bottom: 1px solid $purple;
-          color: #333;
           &:hover {
             background-color: darken($white, 10%);
+          }
+          &-link {
+            color: $black;
           }
           button {
             background-color: #fff;
