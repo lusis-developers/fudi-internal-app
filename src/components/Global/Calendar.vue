@@ -52,14 +52,18 @@ function updateDate(): void {
     border: 1px solid $purple;
     border-radius: 8px;
     position: relative;
+    padding-inline: 5px;
     .input {
-      padding: 8px;
+      padding: 8px 0;
       width: 100%;
       font-size: 14px;
       border: none;
       outline: none;
       background-color: transparent;
       color: $black;
+      &[type='date']::-webkit-calendar-picker-indicator {
+        display: none;
+      }
     }
     .icon {
       position: absolute;

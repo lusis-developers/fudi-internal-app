@@ -1,20 +1,19 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { onMounted, reactive } from 'vue';
+import { useRoute } from 'vue-router';
 import CrushButton from '@nabux-crush/crush-button'
-import CrushTextField from '@nabux-crush/crush-text-field';
 
-import useBusinessStore from '@/store/businessStore';
-import type { Business, Bank } from '@/typings/Business';
 import { businesStatus, Category } from '@/enums';
+import type { Business, Bank } from '@/typings/Business';
+import useBusinessStore from '@/store/businessStore';
 import BankData from '@/views/AdminView/EditBusinessForm/BankData.vue';
 import BusinessDishes from '@/views/AdminView/EditBusinessForm/BusinessDishes.vue';
 import BusinessInfo from '@/views/AdminView/EditBusinessForm/BusinessInfo.vue';
 
-const route = useRoute();
-const router = useRouter();
-const businessStore = useBusinessStore();
 const emit = defineEmits(['close-edit']);
+
+const route = useRoute();
+const businessStore = useBusinessStore();
 
 const business = reactive<Business>({
   name: '',
@@ -46,24 +45,23 @@ const business = reactive<Business>({
 async function updateBusiness () {
   console.log('business actualizado: ', business)
   await businessStore.updateBusiness(business)
+  window.location.assign('/admin');
 }
 function handleBusinessData(updatedData: Business) {
   console.log('data negocio actaulizada', updatedData)
   Object.assign(business, updatedData);
 }
-
 function handleBankData(updatedBankData: Bank) {
   console.log('updated bank data: ', updatedBankData)
   Object.assign(business.bank, updatedBankData);
 }
-
 function handleItems(updatedItems: any) {
   console.log('upadated items', updatedItems)
   business.drinks = updatedItems.filter((item: any) => item.category === Category.DRINKS);
   business.meals = updatedItems.filter((item: any) => item.category === Category.MEALS);
 }
 function cancelEditing() {
-  router.push('/admin')
+  window.location.assign('/admin');
 }
 
 onMounted(async () => {
@@ -80,32 +78,17 @@ onMounted(async () => {
    <div class="form">
     <BusinessInfo @update:business-data="handleBusinessData"/>
     <BankData @update:bank="handleBankData"/>
-    <BusinessDishes @update:items="handleItems"/>
+    <BusinessDishes 
+      @update:items="handleItems"
+      @update:editing="updateBusiness"
+      @update:cancel-editing="cancelEditing"/>
    </div>
-    <div class="actions-container">
-      <CrushButton 
-        variant="secondary"
-        text="Cancelar"
-        @click="cancelEditing"/>
-      <CrushButton
-        class="actions-container-second"
-        variant="primary"
-        text="Actualizar" 
-        @click="updateBusiness"/>
-    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .container {
   padding-bottom: 24px;
-  .actions-container {
-    width: 100%;
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    align-items: center;
-  }
 }
 .form {
   width: 80%;
@@ -113,7 +96,7 @@ onMounted(async () => {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 40px;
   :deep(.crush-text-field-label-text) {
     color: $black;
     font-family: $primary-font;
@@ -150,9 +133,16 @@ onMounted(async () => {
     font-family: $primary-font;
     font-size: 1rem;
   }
-  &-button {
-    width: 50%;
-    max-width: 200px;
+  :deep(.crush-button) {
+  border: none;
+  color: #fff;
+  background-color: $pink;
+  padding: 8px 16px;
+  margin-top: 16px;
+  transition: background-color 0.5s ease-in;
+  &:hover {
+    background-color: darken($pink, 10%);
+  }
   }
 }
 </style>

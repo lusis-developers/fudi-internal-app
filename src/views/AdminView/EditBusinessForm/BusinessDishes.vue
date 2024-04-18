@@ -1,47 +1,36 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
 import CrushTextField from '@nabux-crush/crush-text-field'
 import CrushSelect from '@nabux-crush/crush-select'
-import { useRoute } from 'vue-router';
 
-import { itemRules } from '@/utils/Validations';
 import { Category, ItemLabels } from '@/enums';
 import useBusinessStore from '@/store/businessStore';
 import ItemCard from '@/components/Cards/ItemCard.vue';
+import { itemRules } from '@/utils/Validations';
 
-const route = useRoute();
+const emit = defineEmits(['update:isValid', 'update:items', 'update:editing', 'update:cancel-editing'])
 
 const businessStore = useBusinessStore();
 
-const emit = defineEmits(['update:isValid', 'update:items'])
-
 let selectedDrinkName = ref('');
-let selectedMealName = ref('')
-const items = reactive<{ category: string; name: string; price: string; }[]>([
-  { 
-    category: '',
-    name: '', 
-    price: '' 
-  }
-]);
+let selectedMealName = ref('');
+const route = useRoute();
 const categories = [Category.DRINKS, Category.MEALS];
-
+const items = reactive<{ category: string; name: string; price: string; }[]>([{ 
+  category: '',
+  name: '', 
+  price: '' 
+}]);
 const drinks = computed(() => {
-  return items.filter(item => item.category === Category.DRINKS);
+  return items.filter(item => item.category === Category.DRINKS && item.name !== '' && item.price !== '');
 });
 const meals = computed(() => {
-  return items.filter(item => item.category === Category.MEALS);
+  return items.filter(item => item.category === Category.MEALS && item.name !== '' && item.price !== '');
 });
-
-function addItem () {
-  items.push({
-    category: '',
-    name: '',
-    price: ''
-  });
-  console.log('itemss: ', items)
-};
-
+const news = computed(() => {
+  return items.filter(item => (item.name === '' || item.name.length < 40) && (item.price === '' || item.price.length < 10));
+})
 function selectDrink(name: string) {
   selectedDrinkName.value = name;
 }
@@ -72,6 +61,7 @@ function removeMeal () {
     }
   }
 };
+
 watchEffect(() => {
   if (items.length > 1) {
     emit('update:isValid', true);
@@ -82,7 +72,13 @@ watchEffect(() => {
     emit('update:isValid', false);
   }
 });
-
+watchEffect(() => {
+  if(news.value.length !== 0) {
+    console.log('nuevossIfBefore', news.value)
+    news.value.splice(1, Infinity);
+    console.log('nuevossIfAfter', news.value)
+  }
+});
 watchEffect(() => {
   items.filter(item => item.category === Category.DRINKS);
 });
@@ -100,31 +96,71 @@ onMounted(async () => {
 
 <template>
   <div class="container">
-    <p class="container-title">Ahora echa un vistazo a los platos y bebidas 😁😄</p>
-    <h2 class="container-subtitle">Bebidas</h2>
+    <p class="container-title">
+      Ahora echa un vistazo a los platos y bebidas 😁😄
+    </p>
+    <h2 class="container-subtitle">
+      Agregar un nuevo item
+    </h2>
+      <div 
+        v-for="(item, index) in news" 
+        :key="index" 
+        class="container-form">
+          <CrushSelect
+            :value="item.category"
+            :options="categories"
+            label="Categoría"
+            @update:value="(val: string) => item.category = val"/>
+          <CrushTextField
+            v-model="item.name"
+            :label="
+              item.category === Category.DRINKS 
+              ? ItemLabels.DRINK_NAME 
+              : ItemLabels.MEAL_NAME"
+            :valid-rules="itemRules.nameValidation"/>
+          <CrushTextField
+            v-model="item.price"
+            :valid-rules="itemRules.priceValidation"
+            :prependContent="'$'" 
+            label="Precio" />
+      </div>
+      <div class="container-buttons">
+        <button 
+          class="container-buttons-button"
+          @click="$emit('update:editing')">
+            Guardar
+        </button>
+        <button 
+          class="container-buttons-button"
+          @click="$emit('update:cancel-editing')">
+            Cancelar
+        </button>
+      </div>
+    <h2 class="container-subtitle">
+      Bebidas
+    </h2>
     <div class="container-cards">
       <ItemCard 
         v-for="item in drinks" 
         :key="item.name" 
         :name="item.name" 
         :price="item.price" 
-        @select="() => selectDrink(item.name)"/>
-      <button v-if="selectedDrinkName" @click="removeDrink">Eliminar</button>
+        :showRemoveButton="selectedDrinkName === item.name"
+        @select="() => selectDrink(item.name)"
+        @remove="removeDrink" />
     </div>
-    <h2 class="container-subtitle">Platos</h2>
+    <h2 class="container-subtitle">
+      Platos
+    </h2>
     <div class="container-cards">
       <ItemCard 
         v-for="item in meals" 
         :name="item.name"
         :price="item.price"
-        @select="() => selectMeal(item.name)"/>
-      <button v-if="selectedMealName" @click="removeMeal">Eliminar</button>
+        :showRemoveButton="selectedMealName === item.name"
+        @select="() => selectMeal(item.name)"
+        @remove="removeMeal" />
     </div>
-    <button
-      @click.prevent="addItem"
-      class="container-button">
-      Agregar
-    </button>
   </div>
 </template>
 
@@ -135,6 +171,7 @@ onMounted(async () => {
   gap: 16px;
   &-title {
     font-size: 1.5rem;
+    font-weight: $font-weight-bold;
     color: $pink;
     margin: 16px 0;
     text-align: center;
@@ -156,6 +193,59 @@ onMounted(async () => {
       color: $black;
       font-family: $primary-font;
       font-size: 1rem;
+    }
+  }
+  &-button {
+    font-family: $secondary-font;
+    font-weight: $font-weight-bold;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    border-radius: 8px;
+    color: #fff;
+    background-color: $pink;
+    padding: 8px 16px;
+    transition: background-color 0.5s ease-in;
+    &:hover {
+      background-color: darken($pink, 10%);
+    }
+  }
+}
+.button-remove{
+  border: none;
+  font-family: $secondary-font;
+  font-size: $font-size-normal;
+  color: #fff;
+  background-color: $pink;
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+  transition: background-color 0.5s ease-in;
+  &:hover {
+    background-color: darken($pink, 10%);
+  }
+}
+.container-buttons {
+  display: flex;
+  margin: 24px 0;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  &-button {
+    font-family: $secondary-font;
+    font-weight: $font-weight-bold;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    border-radius: 8px;
+    color: #fff;
+    background-color: $black;
+    padding: 8px 16px;
+    transition: background-color 0.5s ease-in;
+    &:hover {
+      background-color: darken($black, 10%);
     }
   }
 }
