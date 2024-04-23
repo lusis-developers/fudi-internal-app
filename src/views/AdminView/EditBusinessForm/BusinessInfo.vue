@@ -3,12 +3,10 @@ import CalendarInput from "@/components/Global/Calendar.vue";
 import CrushTextField from "@nabux-crush/crush-text-field";
 import { computed, onMounted, reactive, watch } from "vue";
 import CrushSelect from "@nabux-crush/crush-select";
-import CrushButton from "@nabux-crush/crush-button"
 import { businesStatus } from "@/enums";
 import { businessRules } from "@/utils/Validations";
 import { useRoute } from "vue-router";
 import useBusinessStore from "@/store/businessStore";
-import { nextTick } from "process";
 
 const emit = defineEmits(["update:business-data"]);
 
@@ -96,6 +94,7 @@ watch(() => business, (newBusiness, oldBusiness) => {
 onMounted(async () => {
   const $inputDisable = document.querySelector('.crush-text-field-input')
   $inputDisable?.setAttribute('disabled', 'true');
+  $inputDisable?.setAttribute('style', 'cursor: not-allowed;')
   const id = route.params.id;
   const response = businessStore.getBusinessById(id as any);
   if (response) {
