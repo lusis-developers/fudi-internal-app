@@ -65,7 +65,7 @@ watchEffect(() => {
         />
       <button 
         @click="removeItem(index)"
-        class="container-form-remove">
+        class="container-button container-button-remove">
         Eliminar
       </button>
     </div>
@@ -91,6 +91,27 @@ watchEffect(() => {
       color: $black;
       font-family: $primary-font;
       font-size: 1rem;
+    }
+  }
+  &-button {
+    background-color: $pink;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-family: $primary-font;
+    font-size: 1rem;
+    padding: 8px 16px;
+    width: 100%;
+    &:hover {
+      background-color: darken($pink, 10%);
+    }
+    &-remove {
+      background-color: $black;
+      margin: 24px 0;
+      &:hover {
+        background-color: darken($black, 10%);
+      }
     }
   }
 }
