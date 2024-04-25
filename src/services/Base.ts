@@ -8,7 +8,7 @@ class APIBase {
   private baseUrl: string;
 
   constructor() {
-    this.baseUrl = 'https://n8n-production-9a76.up.railway.app/webhook' || 'http://localhost:8000/api';
+    this.baseUrl = import.meta.env.VITE_URLPRODUCTION || import.meta.env.VITE_URLDEVELOPMENT;
   }
 
   private buildUrl(endpoint: string): string {

@@ -9,7 +9,7 @@ const router = useRouter();
 
 function  handleSubmit () {
   userStore.login(password.value);
-  if (userStore.password === "soydenissita") {
+  if (userStore.password === import.meta.env.VITE_PASSWORD) {
     router.push({ name: 'admin' });
   }
 };
