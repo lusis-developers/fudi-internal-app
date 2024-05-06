@@ -92,12 +92,10 @@ watchEffect(() => {
       :valid-rules="businessRules.instagramValidation" />
     <CrushTextField
       v-model="latString"
-      label="Latitud del negocio"
-      :valid-rules="businessRules.latValidation" />
+      label="Latitud del negocio" />
     <CrushTextField
       v-model="lngString"
-      label="Longitud del negocio"
-      :valid-rules="businessRules.lngValidation" />
+      label="Longitud del negocio" />
     <CrushTextField
       v-model="radiusString"
       label="Radio de alcance de los pedidos"
