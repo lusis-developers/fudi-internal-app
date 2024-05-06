@@ -105,12 +105,14 @@ function submitBusiness() {
     <BusinessDishes 
       @update:is-valid="updateBusinessDishesValidity"
       @update:items="handleItems"/>
-    <CrushButton
-      variant="'primary'"
-      text="Guardar"
-      class="form-button"
-      :disabled="!sendForm"
-      @click.prevent="submitBusiness"/>
+    <div class="button-container">
+      <CrushButton
+        variant="'primary'"
+        text="Guardar"
+        class="form-button"
+        :disabled="!sendForm"
+        @click.prevent="submitBusiness"/>
+    </div>
    </form> 
   </div>
 </template>
@@ -164,7 +166,28 @@ function submitBusiness() {
   }
   &-button {
     width: 50%;
-    max-width: 200px;
+    max-width: 200px; 
+  }
+}
+.button-container{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+:deep(.crush-button.disabled){
+  background-color: rgba(230, 40, 91, .7);
+  border: none;
+  &:hover {
+    background-color: rgba(230, 40, 91, .7);
+  }
+}
+:deep(.crush-button){
+  background-color: $pink;
+  border: none;
+  color: #fff;
+  &:hover {
+    border: none;
+    background-color: darken($pink, 10%);
   }
 }
 </style>
