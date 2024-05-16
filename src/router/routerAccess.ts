@@ -5,7 +5,7 @@ export async function checkAccess(to: RouteLocationNormalized, _from: RouteLocat
   const userStore = useUserStore();
   const password = userStore.password;
 
-  if (password === 'soydenissita' && to.meta.requiresAdmin) {
+  if (password === import.meta.env.VITE_PASSWORD && to.meta.requiresAdmin) {
     next();
   } else {
     next('/');

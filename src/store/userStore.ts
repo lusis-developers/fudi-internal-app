@@ -17,7 +17,7 @@ export const useUserStore = defineStore('UserStore', {
     login(password: string): void {
       this.isLoading = true;
       try {
-        if (password === "soydenissita") {
+        if (password === import.meta.env.VITE_PASSWORD) {
           console.log("¡Acceso concedido!");
           this.password = password;
         } else {
