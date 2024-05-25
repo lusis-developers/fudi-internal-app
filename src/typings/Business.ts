@@ -7,7 +7,7 @@ export interface Coordinates {
 export interface Item {
   name: string;
   price: string;
-  details?: string;
+  description: string;
 }
 export interface Bank {
   bankName: string;
@@ -23,6 +23,7 @@ export interface Business {
   _id?: string;
   name: string;
   botName: string;
+  logo: string
   coordinates: Coordinates;
   currency: string;
   location: string;

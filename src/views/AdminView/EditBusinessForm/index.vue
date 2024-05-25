@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue';
 import { useRoute } from 'vue-router';
-import CrushButton from '@nabux-crush/crush-button'
 
 import { businesStatus, Category } from '@/enums';
 import type { Business, Bank } from '@/typings/Business';
@@ -18,6 +17,7 @@ const businessStore = useBusinessStore();
 const business = reactive<Business>({
   name: '',
   botName: '',
+  logo: '',
   coordinates: {
     lat: 0,
     lng: 0,

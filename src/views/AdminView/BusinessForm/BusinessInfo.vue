@@ -15,6 +15,7 @@ const business = reactive({
   startDate: "",
   status: businesStatus.PENDING,
   botName: "",
+  logo: "",
   currency: "USD",
   location: "",
   schedule: "",
@@ -56,7 +57,32 @@ function handleDate(value: string) {
 function updateStatus(value: string) {
   if (Object.values(businesStatus).includes(value as any)) {
     business.status = value as any;
-    console.log("valor acutalizado: ", business.status);
+    console.log("valor actualizado: ", business.status);
+  }
+}
+async function handleFileUpload(event: Event) {
+  const target = event.target as HTMLInputElement;
+  console.log('target:', target);
+  if (target.files && target.files[0]) {
+    const formData = new FormData();
+    formData.append('data', target.files[0]);
+    console.log('formData:', formData);
+    try {
+      const response = await fetch(import.meta.env.VITE_ENDPOINT_POST_LOGO, {
+        method: 'POST',
+        body: formData
+      });
+      console.log('response:', response);
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        console.log('jsonResponse:', jsonResponse);
+        const selfLink = jsonResponse[0].selfLink;
+        business.logo = selfLink;
+        console.log('Imagen subida exitosamente:', selfLink);
+      }
+    } catch (error) {
+      console.error('Error al enviar la solicitud', error);
+    }
   }
 }
 
@@ -64,6 +90,7 @@ watchEffect(() => {
   if (
     business.name !== "" &&
     business.botName !== "" &&
+    business.logo !== "" &&
     business.website !== "" &&
     business.startDate !== "" &&
     business.coordinates.lat !== 0 &&
@@ -77,7 +104,7 @@ watchEffect(() => {
 </script>
 
 <template>
-	<form class="container">
+  <form class="container">
     <CrushTextField
       v-model="business.name"
       :label="'Nombre'"
@@ -86,6 +113,7 @@ watchEffect(() => {
       v-model="business.botName"
       label="Nombre del Bot"
       :valid-rules="businessRules.nameValidation"/>
+    <input type="file" @change="handleFileUpload" accept="image/*"/>
     <CrushTextField
       v-model="business.website"
       :label="'Instagram'"

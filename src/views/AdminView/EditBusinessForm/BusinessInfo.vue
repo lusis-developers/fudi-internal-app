@@ -19,6 +19,7 @@ const business = reactive({
   startDate: "",
   status: businesStatus.PENDING,
   botName: "",
+  logo: "",
   currency: "USD",
   location: "",
   schedule: "",
@@ -28,11 +29,12 @@ const business = reactive({
     radius: 0,
   },
 });
+
 const updateName = createUpdateFunction('name');
 const updateWebsite = createUpdateFunction('website');
 const updateStartDate = createUpdateFunction('startDate');
 const updateBotName = createUpdateFunction('botName');
-const updateSchedule = createUpdateFunction('schedule')
+const updateSchedule = createUpdateFunction('schedule');
 const updateLngString = (newVal: string) => {
   business.coordinates.lng = parseFloat(newVal);
 };
@@ -83,6 +85,42 @@ function updateStatus(value: string) {
     console.log("valor acutalizado: ", business.status);
   }
 }
+async function handleFileUpload(event: Event) {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files[0]) {
+    const formData = new FormData();
+    formData.append('data', target.files[0]);
+
+    const oldImage = business.logo.split('/').pop();
+    console.log('Imagen antigua:', oldImage);
+
+    try {
+      if (oldImage) {
+        await fetch(import.meta.env.VITE_ENDPOINT_DELETE_IMAGE, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ oldImage })
+        });
+        console.log('Imagen antigua eliminada:', oldImage);
+      }
+
+      const response = await fetch(import.meta.env.VITE_ENDPOINT_POST_LOGO, {
+        method: 'POST',
+        body: formData
+      });
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        const selfLink = jsonResponse[0].selfLink;
+        business.logo = selfLink;
+        console.log('Imagen subida exitosamente:', selfLink);
+      }
+    } catch (error) {
+      console.error('Error al enviar la solicitud', error);
+    }
+  }
+}
 
 watch(() => business, (newBusiness, oldBusiness) => {
   console.log('El objeto businessInfo antiguo:', oldBusiness);
@@ -115,6 +153,7 @@ onMounted(async () => {
       label="Nombre del Bot"
       :valid-rules="businessRules.nameValidation"
       @update:modelValue="updateBotName"/>
+    <input type="file" @change="handleFileUpload" accept="image/*" />
     <CrushTextField
       v-model:value="business.website"
       :label="'Instagram'"

@@ -14,10 +14,11 @@ const router = useRouter();
 
 const businessStore = useBusinessStore()
 
-const items = ref<Array<{ category: string; name: string; price: string; }>>([]);
+const items = ref<Array<{ category: string; name: string; price: string; description: string }>>([]);
 const business = reactive<Business>({
   name: '',
   botName: '',
+  logo: '',
   coordinates: {
     lat: 0,
     lng: 0,
@@ -60,7 +61,7 @@ const isFormValid = ref(false);
 function updateBusinessDishesValidity(isValid: boolean) {
   isFormValid.value = isValid;
 }
-function handleItems(newItems: Array<{ category: string; name: string; price: string; }>) {
+function handleItems(newItems: Array<{ category: string; name: string; price: string; description: string }>) {
   items.value = newItems;
   console.log('handle itemsss: ', newItems)
 }
@@ -71,6 +72,7 @@ function handleBank(bankData: Bank) {
 function handleInfo (info: Business) {
   business.name = info.name;
   business.botName = info.botName;
+  business.logo = info.logo;
   business.website = info.website;
   business.startDate = info.startDate;
   business.status = info.status;
@@ -83,11 +85,10 @@ function submitBusiness() {
   if (sendForm.value) {
     business.drinks = items.value
       .filter(item => item.category === Category.DRINKS)
-      .map(item => ({ name: item.name, price: item.price }));
+      .map(item => ({ name: item.name, price: item.price, description: item.description}));
     business.meals = items.value
       .filter(item => item.category === Category.MEALS)
-      .map(item => ({ name: item.name, price: item.price }));
-    
+      .map(item => ({ name: item.name, price: item.price, description: item.description }));
     businessStore.saveBusiness(business);
     console.log('business: ', business)
     router.push('/admin')
