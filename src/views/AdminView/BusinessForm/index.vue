@@ -80,18 +80,16 @@ function handleInfo (info: Business) {
   business.schedule = info.schedule
 }
 function submitBusiness() {
-  if (sendForm.value) {
-    business.drinks = items.value
-      .filter(item => item.category === Category.DRINKS)
-      .map(item => ({ name: item.name, price: item.price }));
-    business.meals = items.value
-      .filter(item => item.category === Category.MEALS)
-      .map(item => ({ name: item.name, price: item.price }));
-    
-    businessStore.saveBusiness(business);
-    console.log('business: ', business)
-    router.push('/admin')
-  }
+  business.drinks = items.value
+    .filter(item => item.category === Category.DRINKS)
+    .map(item => ({ name: item.name, price: item.price }));
+  business.meals = items.value
+    .filter(item => item.category === Category.MEALS)
+    .map(item => ({ name: item.name, price: item.price }));
+  
+  businessStore.saveBusiness(business);
+  console.log('business: ', business)
+  router.push('/admin')
 }
 </script>
 
