@@ -8,11 +8,12 @@ import { Category, ItemLabels } from '@/enums';
 
 const emit = defineEmits(['update:isValid', 'update:items'])
 
-const items = reactive<{ category: string; name: string; price: string; }[]>([
+const items = reactive<{ category: string; name: string; price: string; description: string; }[]>([
   { 
     category: '',
     name: '', 
-    price: '' 
+    price: '',
+    description: '' 
   }
 ]);
 const categories = [Category.DRINKS, Category.MEALS];
@@ -21,7 +22,8 @@ function addItem () {
   items.push({
     category: '',
     name: '',
-    price: ''
+    price: '',
+    description: ''
   });
   console.log('itemssForm: ', items)
 };
@@ -62,6 +64,10 @@ watchEffect(() => {
         :valid-rules="itemRules.priceValidation"
         :prependContent="'$'" 
         label="Precio"
+        />
+      <CrushTextField
+        v-model="item.description"
+        label="Descripción"
         />
       <button 
         @click="removeItem(index)"
