@@ -17,19 +17,20 @@ let selectedDrinkName = ref('');
 let selectedMealName = ref('');
 const route = useRoute();
 const categories = [Category.DRINKS, Category.MEALS];
-const items = reactive<{ category: string; name: string; price: string; }[]>([{ 
+const items = reactive<{ category: string; name: string; price: string; description: string; }[]>([{ 
   category: '',
   name: '', 
-  price: '' 
+  price: '' ,
+  description: ''
 }]);
 const drinks = computed(() => {
-  return items.filter(item => item.category === Category.DRINKS && item.name !== '' && item.price !== '');
+  return items.filter(item => item.category === Category.DRINKS && item.name !== '' && item.price !== '' && item.description !== '');
 });
 const meals = computed(() => {
-  return items.filter(item => item.category === Category.MEALS && item.name !== '' && item.price !== '');
+  return items.filter(item => item.category === Category.MEALS && item.name !== '' && item.price !== '' && item.description !== '');
 });
 const news = computed(() => {
-  return items.filter(item => (item.name === '' || item.name.length < 40) && (item.price === '' || item.price.length < 10));
+  return items.filter(item => (item.name === '' || item.name.length < 40) && (item.price === '' || item.price.length < 10) && (item.description === '' || item.description.length < 100));
 })
 function selectDrink(name: string) {
   selectedDrinkName.value = name;
@@ -88,8 +89,8 @@ onMounted(async () => {
   const response = businessStore.getBusinessById(id as any);
   if (response) {
     const {meals, drinks} = response;
-    meals.forEach(meal => items.push({category: Category.MEALS, name: meal.name, price: meal.price}));
-    drinks.forEach(drink => items.push({category: Category.DRINKS, name: drink.name, price: drink.price}));
+    meals.forEach(meal => items.push({category: Category.MEALS, name: meal.name, price: meal.price, description: meal.description}));
+    drinks.forEach(drink => items.push({category: Category.DRINKS, name: drink.name, price: drink.price, description: drink.description}));
   }
 });
 </script>
@@ -123,6 +124,9 @@ onMounted(async () => {
             :valid-rules="itemRules.priceValidation"
             :prependContent="'$'" 
             label="Precio" />
+          <CrushTextField
+            v-model="item.description"
+            label="Descripción" />
       </div>
       <div class="container-buttons">
         <button 
@@ -145,6 +149,7 @@ onMounted(async () => {
         :key="item.name" 
         :name="item.name" 
         :price="item.price" 
+        :description="item.description"
         :showRemoveButton="selectedDrinkName === item.name"
         @select="() => selectDrink(item.name)"
         @remove="removeDrink" />
@@ -157,6 +162,7 @@ onMounted(async () => {
         v-for="item in meals" 
         :name="item.name"
         :price="item.price"
+        :description="item.description"
         :showRemoveButton="selectedMealName === item.name"
         @select="() => selectMeal(item.name)"
         @remove="removeMeal" />
