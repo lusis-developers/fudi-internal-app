@@ -12,7 +12,6 @@ export const useUserStore = defineStore('UserStore', {
     errorMessage: null,
     isLoading: false,
   }),
-
   actions: {
     login(password: string): void {
       this.isLoading = true;
@@ -28,7 +27,8 @@ export const useUserStore = defineStore('UserStore', {
         this.isLoading = false;
       }
     },
-  }
+  },
+  persist: true
 });
 
 export default useUserStore;
